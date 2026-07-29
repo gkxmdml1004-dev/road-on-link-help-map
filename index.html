@@ -110,7 +110,7 @@
       }catch(error){if(request===photoRequest){status.textContent="이 장소의 공개 사진을 준비 중이에요"}}
     }
     async function loadAllPlaces(){
-      const q='[out:json][timeout:60];area(3604110492)->.a;(nwr(area.a)["amenity"~"^(police|fire_station|townhall|hospital|clinic|pharmacy|school|kindergarten|college|university|library|museum|arts_centre|theatre|cinema|post_office|marketplace)$"];nwr(area.a)["tourism"~"^(museum|gallery|attraction|theme_park|zoo|aquarium)$"];nwr(area.a)["healthcare"~"^(hospital|clinic|pharmacy|centre)$"];nwr(area.a)["leisure"~"^(park|playground|sports_centre|stadium|amusement_arcade|escape_game|water_park)$"];nwr(area.a)["shop"~"^(supermarket|mall|department_store|variety_store)$"];nwr(area.a)["office"="government"]["name"~"(행정복지센터|주민센터|구청|시청)$"];nwr(area.a)["name"~"(파출소|지구대|병원|박물관|미술관|학교|도서관|문화회관|체험관|극장|영화관|다이소|백화점|마트)$"];);out center tags;';
+      const q='[out:json][timeout:60];area(3604110492)->.a;(nwr(area.a)["amenity"~"^(police|fire_station|townhall|hospital|clinic|pharmacy|school|college|university|library|museum|arts_centre|theatre|cinema|post_office|marketplace)$"];nwr(area.a)["tourism"~"^(museum|gallery|attraction|theme_park|zoo|aquarium)$"];nwr(area.a)["healthcare"~"^(hospital|clinic|pharmacy|centre)$"];nwr(area.a)["leisure"~"^(park|playground|sports_centre|stadium|amusement_arcade|escape_game|water_park)$"];nwr(area.a)["shop"~"^(supermarket|mall|department_store|variety_store)$"];nwr(area.a)["office"="government"]["name"~"(행정복지센터|주민센터|구청|시청)$"];nwr(area.a)["name"~"(파출소|지구대|병원|박물관|미술관|학교|도서관|문화회관|체험관|극장|영화관|다이소|백화점|마트)$"];);out center tags;';
       try{
         $("mapStatus").textContent="동래구의 도움 장소를 모으고 있어요";
         const response=await fetch("https://overpass-api.de/api/interpreter?data="+encodeURIComponent(q));
