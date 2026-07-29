@@ -62,6 +62,13 @@
       $("mapShell").classList.add("live");$("markers").style.display="none";$("mapStatus").textContent="마커를 눌러 장소를 탐구해 보세요";renderNaverMarkers();
     };
   </script>
-  <script async src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=6kyen4rscl&callback=initNaverMap"></script>
+  <script src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=6kyen4rscl"></script>
+  <script>
+    if(window.naver&&window.naver.maps){
+      window.initNaverMap();
+    }else{
+      document.getElementById("mapStatus").textContent="지도 연결을 확인해 주세요";
+    }
+  </script>
 </body>
 </html>
