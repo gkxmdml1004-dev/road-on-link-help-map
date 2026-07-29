@@ -43,6 +43,14 @@
     const majorHospitalNames=new Set(["동래구보건소","대동병원","광혜병원","동래봉생병원"]);
     data=data.filter(p=>p[1]!=="건강·의료"||majorHospitalNames.has(p[0]));
     const cats=[["전체","✨"],["편리","🏛️"],["안전","🛡️"],["건강·의료","💊"],["교육·문화","📚"],["놀이·여가","🎈"],["생활편의","🛒"]];
+    const preferredSubs={
+      "편리":["시청·구청","행정복지센터"],
+      "안전":["경찰","소방"],
+      "건강·의료":["보건소","종합병원"],
+      "교육·문화":["초등학교","도서관","박물관","미술관"],
+      "놀이·여가":["공원","극장","영화관","체육시설","문화회관"],
+      "생활편의":["다이소","백화점","대형마트","시장","우체국"]
+    };
     let cat="전체",subcat="전체",selected=data[0],visited=new Set(),leafletMap=null,leafletMarkers=[];
     const $=id=>document.getElementById(id);
     function subtype(p){
@@ -60,7 +68,7 @@
     function select(p){selected=p;visited.add(p[0]);$("progress").textContent=visited.size+" / "+data.length;render();if(leafletMap)leafletMap.panTo([p[2],p[3]])}
     function render(){
       $("topics").innerHTML=cats.map(c=>`<button class="${cat===c[0]?"on":""}" data-cat="${c[0]}">${c[1]} ${c[0]}</button>`).join("");
-      const group=cat==="전체"?[]:data.filter(p=>p[1]===cat),subs=[...new Set(group.map(subtype))].sort((a,b)=>a.localeCompare(b,"ko"));
+      const group=cat==="전체"?[]:data.filter(p=>p[1]===cat),found=[...new Set(group.map(subtype))],subs=[...new Set([...(preferredSubs[cat]||[]),...found])];
       $("subtopics").style.display=cat==="전체"?"none":"flex";
       $("subtopics").innerHTML=cat==="전체"?"":[`<button class="${subcat==="전체"?"on":""}" data-subcat="전체">전체</button>`,...subs.map(s=>`<button class="${subcat===s?"on":""}" data-subcat="${s}">${s}</button>`)].join("");
       const f=filtered(); $("count").textContent=`● 도움 장소 ${f.length}곳`;
