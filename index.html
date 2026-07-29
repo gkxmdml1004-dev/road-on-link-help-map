@@ -35,7 +35,13 @@
       ["사직도서관","배움을 돕는 곳",35.1966,129.0548,"📖","책과 문화 프로그램을 만날 수 있는 배움터예요.","독서, 조사, 과제와 문화 활동에 도움을 받을 수 있어요.","자료실별 운영 시간은 홈페이지 확인","회원증이 필요한지 방문 전에 확인해요.","도서관에서 해 보고 싶은 활동은 무엇인가요?","https://library.busan.go.kr/sajik/"],
       ["도시철도 동래역","생활을 돕는 곳",35.2055,129.0786,"🚇","여러 지역으로 안전하고 편리하게 이동하도록 돕는 곳이에요.","길 찾기와 교통카드 이용 안내를 받을 수 있어요.","첫차·막차 시간은 교통공사 확인","안전선 안쪽에서 기다리고 뛰지 않아요.","지하철역은 어떤 불편을 줄여 줄까요?","https://www2.humetro.busan.kr/"],
       ["금강공원","자연·쉼터",35.2238,129.0773,"🌳","도심에서 자연을 느끼며 쉬고 운동할 수 있는 곳이에요.","산책과 놀이, 휴식으로 몸과 마음을 건강하게 해요.","시설별 이용 시간이 달라요","쓰레기는 되가져가고 정해진 길을 이용해요.","공원이 마음 건강에도 도움을 주는 이유는 무엇일까요?","https://www.busan.go.kr/geumgangpark/"],
-      ["온천천 시민공원","자연·쉼터",35.2117,129.1014,"🌿","물길을 따라 걷고 자연을 관찰할 수 있는 쉼터예요.","가볍게 운동하고 계절의 동식물을 관찰할 수 있어요.","상시 이용 가능","자전거와 보행자 길을 구분하고 물가를 조심해요.","자연 쉼터를 지키려면 무엇을 할 수 있을까요?","https://www.dongnae.go.kr/"]
+      ["온천천 시민공원","자연·쉼터",35.2117,129.1014,"🌿","물길을 따라 걷고 자연을 관찰할 수 있는 쉼터예요.","가볍게 운동하고 계절의 동식물을 관찰할 수 있어요.","상시 이용 가능","자전거와 보행자 길을 구분하고 물가를 조심해요.","자연 쉼터를 지키려면 무엇을 할 수 있을까요?","https://www.dongnae.go.kr/"],
+      ["명륜초등학교","교육·문화",35.2117,129.0821,"🏫","어린이들이 배우고 함께 생활하는 초등학교예요.","배움과 친구 관계, 건강한 생활 습관을 익히도록 도와줘요.","","","초등학교는 어린이의 성장에 어떤 도움을 줄까요?","https://school.busanedu.net/myeongryun-e/main.do","","초등학교"],
+      ["명장초등학교","교육·문화",35.2068,129.1037,"🏫","어린이들이 배우고 함께 생활하는 초등학교예요.","배움과 친구 관계, 건강한 생활 습관을 익히도록 도와줘요.","","","초등학교가 우리 동네 가까이에 있어야 하는 이유는 무엇일까요?","https://school.busanedu.net/myungjang-e/main.do","","초등학교"],
+      ["사직초등학교","교육·문화",35.1977,129.0578,"🏫","어린이들이 배우고 함께 생활하는 초등학교예요.","배움과 친구 관계, 건강한 생활 습관을 익히도록 도와줘요.","","","학교에서 혼자 하기 어려운 일을 어떻게 도움받을 수 있을까요?","https://school.busanedu.net/sajik-e/main.do","","초등학교"],
+      ["동래구국민체육센터","놀이·여가",35.2010,129.0702,"🏊","동래구가 운영하는 공공 체육시설이에요.","수영과 운동을 배우고 즐기며 몸을 건강하게 가꾸도록 도와줘요.","","","공공 체육시설은 우리 건강에 어떤 도움을 줄까요?","https://sports.dongnae.go.kr/","","체육시설"],
+      ["동래문화회관","놀이·여가",35.2077,129.0889,"🎭","공연과 전시를 만날 수 있는 공공 문화시설이에요.","공연과 예술 활동을 경험하며 생각과 느낌을 넓히도록 도와줘요.","","","문화회관에서는 어떤 새로운 경험을 할 수 있을까요?","https://www.dongnae.go.kr/culture/","https://www.dongnae.go.kr/images/tour/contents/sub01/img_1_6_2.jpg","문화회관"],
+      ["충렬사","교육·문화",35.1994,129.0976,"🏛️","임진왜란 때 나라와 지역을 지킨 분들을 기리는 역사 문화유산이에요.","우리 지역의 역사와 선조들의 마음을 배우도록 도와줘요.","","","충렬사에서 우리가 기억해야 할 역사는 무엇일까요?","https://www.dongnae.go.kr/index.dongnae?menuCd=DOM_000000401003012003","https://www.dongnae.go.kr/images/tour/contents/sub01/img_1_3_9.jpg","문화유산"]
     ];
     const oldCategoryMap={"공공기관":"편리","안전을 돕는 곳":"안전","건강을 돕는 곳":"건강·의료","배움을 돕는 곳":"교육·문화","생활을 돕는 곳":"생활편의","자연·쉼터":"놀이·여가"};
     data=data.map(p=>p.map((v,i)=>i===1?(oldCategoryMap[p[1]]||p[1]):v));
@@ -43,24 +49,16 @@
     const majorHospitalNames=new Set(["동래구보건소","대동병원","광혜병원","동래봉생병원"]);
     data=data.filter(p=>p[1]!=="건강·의료"||majorHospitalNames.has(p[0]));
     const cats=[["전체","✨"],["편리","🏛️"],["안전","🛡️"],["건강·의료","💊"],["교육·문화","📚"],["놀이·여가","🎈"],["생활편의","🛒"]];
-    const preferredSubs={
-      "편리":["시청·구청","행정복지센터"],
-      "안전":["경찰","소방"],
-      "건강·의료":["보건소","종합병원"],
-      "교육·문화":["초등학교","도서관","박물관","미술관"],
-      "놀이·여가":["공원","극장","영화관","체육시설","문화회관"],
-      "생활편의":["다이소","백화점","대형마트","시장","우체국"]
-    };
     let cat="전체",subcat="전체",selected=data[0],visited=new Set(),leafletMap=null,leafletMarkers=[];
     const $=id=>document.getElementById(id);
     function subtype(p){
-      if(p[12])return p[12];
+      if(p[12])return /^(극장|영화관)$/.test(p[12])?"극장·영화관":p[12];
       const n=p[0];
       if(/시청|구청/.test(n))return"시청·구청";if(/행정복지센터|주민센터/.test(n))return"행정복지센터";
       if(/경찰서|파출소|지구대/.test(n))return"경찰";if(/소방|119/.test(n))return"소방";
       if(/보건소/.test(n))return"보건소";if(/병원/.test(n))return"종합병원";
-      if(/초등학교/.test(n))return"초등학교";if(/도서관/.test(n))return"도서관";if(/박물관/.test(n))return"박물관";if(/미술관/.test(n))return"미술관";
-      if(/공원|온천천/.test(n))return"공원";if(/극장/.test(n))return"극장";if(/영화관/.test(n))return"영화관";if(/체육|운동장|야구장/.test(n))return"체육시설";if(/문화회관/.test(n))return"문화회관";
+      if(/초등학교/.test(n))return"초등학교";if(/도서관/.test(n))return"도서관";if(/박물관/.test(n))return"박물관";if(/미술관/.test(n))return"미술관";if(/충렬사|문화유산/.test(n))return"문화유산";
+      if(/공원|온천천/.test(n))return"공원";if(/극장|영화관/.test(n))return"극장·영화관";if(/체육|운동장|야구장/.test(n))return"체육시설";if(/문화회관/.test(n))return"문화회관";
       if(/다이소/.test(n))return"다이소";if(/백화점/.test(n))return"백화점";if(/마트/.test(n))return"대형마트";if(/시장/.test(n))return"시장";if(/우체국/.test(n))return"우체국";
       return"기타";
     }
@@ -68,7 +66,7 @@
     function select(p){selected=p;visited.add(p[0]);$("progress").textContent=visited.size+" / "+data.length;render();if(leafletMap)leafletMap.panTo([p[2],p[3]])}
     function render(){
       $("topics").innerHTML=cats.map(c=>`<button class="${cat===c[0]?"on":""}" data-cat="${c[0]}">${c[1]} ${c[0]}</button>`).join("");
-      const group=cat==="전체"?[]:data.filter(p=>p[1]===cat),found=[...new Set(group.map(subtype))],subs=[...new Set([...(preferredSubs[cat]||[]),...found])];
+      const group=cat==="전체"?[]:data.filter(p=>p[1]===cat),subs=[...new Set(group.map(subtype))].sort((a,b)=>a.localeCompare(b,"ko"));
       $("subtopics").style.display=cat==="전체"?"none":"flex";
       $("subtopics").innerHTML=cat==="전체"?"":[`<button class="${subcat==="전체"?"on":""}" data-subcat="전체">전체</button>`,...subs.map(s=>`<button class="${subcat===s?"on":""}" data-subcat="${s}">${s}</button>`)].join("");
       const f=filtered(); $("count").textContent=`● 도움 장소 ${f.length}곳`;
@@ -95,7 +93,7 @@
       police:["안전","👮","경찰서·파출소"],fire_station:["안전","🚒","소방서·안전센터"],townhall:["편리","🏛️","구청·행정복지센터"],
       hospital:["건강·의료","🏥","병원"],clinic:["건강·의료","🩺","의원"],pharmacy:["건강·의료","💊","약국"],centre:["건강·의료","❤️","보건·의료센터"],
       school:["교육·문화","🏫","학교"],kindergarten:["교육·문화","🧸","유치원"],college:["교육·문화","🎓","대학"],university:["교육·문화","🎓","대학교"],library:["교육·문화","📚","도서관"],museum:["교육·문화","🏛️","박물관"],arts_centre:["교육·문화","🎨","문화예술시설"],
-      park:["놀이·여가","🌳","공원"],playground:["놀이·여가","🛝","놀이터"],sports_centre:["놀이·여가","⚽","체육시설"],stadium:["놀이·여가","🏟️","경기장"],gallery:["놀이·여가","🖼️","미술관"],theatre:["놀이·여가","🎭","극장"],cinema:["놀이·여가","🎬","영화관"],attraction:["놀이·여가","🎈","체험·관광시설"],theme_park:["놀이·여가","🎡","테마파크"],zoo:["놀이·여가","🦁","동물원"],aquarium:["놀이·여가","🐠","수족관"],amusement_arcade:["놀이·여가","🕹️","놀이시설"],escape_game:["놀이·여가","🧩","체험시설"],water_park:["놀이·여가","🏊","물놀이시설"],experience:["놀이·여가","🧪","체험관"],
+      park:["놀이·여가","🌳","공원"],playground:["놀이·여가","🛝","놀이터"],sports_centre:["놀이·여가","⚽","체육시설"],stadium:["놀이·여가","🏟️","체육시설"],gallery:["교육·문화","🖼️","미술관"],theatre:["놀이·여가","🎭","극장·영화관"],cinema:["놀이·여가","🎬","극장·영화관"],attraction:["놀이·여가","🎈","체험·관광시설"],zoo:["놀이·여가","🦁","동물원"],aquarium:["놀이·여가","🐠","수족관"],amusement_arcade:["놀이·여가","🕹️","놀이시설"],escape_game:["놀이·여가","🧩","체험시설"],water_park:["놀이·여가","🏊","물놀이시설"],experience:["놀이·여가","🧪","체험관"],historic_site:["교육·문화","🏛️","문화유산"],
       marketplace:["생활편의","🧺","시장"],supermarket:["생활편의","🛒","대형마트·슈퍼마켓"],mall:["생활편의","🛍️","쇼핑몰"],department_store:["생활편의","🏬","백화점"],variety_store:["생활편의","🧺","생활용품점"],convenience:["생활편의","🏪","편의점"],post_office:["생활편의","📮","우체국"]
     };
     const helpTexts={
@@ -141,7 +139,7 @@
         if(!response.ok)throw new Error("장소 데이터 응답 오류");
         const json=await response.json();
         const found=json.elements.map(e=>{
-          const name=e.tags?.name||"",type=/(파출소|지구대)$/.test(name)?"police":/(행정복지센터|주민센터|구청|시청)$/.test(name)?"townhall":/병원$/.test(name)?"hospital":/미술관$/.test(name)?"gallery":/박물관$/.test(name)?"museum":/도서관$/.test(name)?"library":/학교$/.test(name)?"school":/문화회관$/.test(name)?"arts_centre":/체험관$/.test(name)?"experience":/영화관$/.test(name)?"cinema":/극장$/.test(name)?"theatre":/다이소/.test(name)?"variety_store":/백화점$/.test(name)?"department_store":/마트$/.test(name)?"supermarket":e.tags?.amenity||e.tags?.tourism||e.tags?.healthcare||e.tags?.leisure||e.tags?.shop,info=placeTypes[type],lat=e.lat||e.center?.lat,lng=e.lon||e.center?.lon;
+          const name=e.tags?.name||"",type=/충렬사|동래읍성|동래향교/.test(name)?"historic_site":/(파출소|지구대)$/.test(name)?"police":/(행정복지센터|주민센터|구청|시청)$/.test(name)?"townhall":/병원$/.test(name)?"hospital":/미술관$/.test(name)?"gallery":/박물관$/.test(name)?"museum":/도서관$/.test(name)?"library":/학교$/.test(name)?"school":/문화회관$/.test(name)?"arts_centre":/체험관$/.test(name)?"experience":/영화관$/.test(name)?"cinema":/극장$/.test(name)?"theatre":/다이소/.test(name)?"variety_store":/백화점$/.test(name)?"department_store":/마트$/.test(name)?"supermarket":e.tags?.amenity||e.tags?.tourism||e.tags?.healthcare||e.tags?.leisure||e.tags?.shop,info=placeTypes[type],lat=e.lat||e.center?.lat,lng=e.lon||e.center?.lon;
           if(!info||!name||!lat||!lng)return null;
           if(info[0]==="건강·의료"&&!majorHospitalNames.has(name))return null;
           if(type==="school"&&!/초등학교/.test(name))return null;
@@ -149,7 +147,7 @@
           if(info[0]==="놀이·여가"){
             const operator=e.tags?.operator||"",housing=/(아파트|APT|단지|주공|빌라|오피스텔|관리사무소)/i;
             if(housing.test(name)||housing.test(operator))return null;
-            const trustedType=["museum","gallery","arts_centre","theatre","cinema","stadium","sports_centre","theme_park","zoo","aquarium"].includes(type);
+            const trustedType=["museum","gallery","arts_centre","theatre","cinema","stadium","sports_centre","zoo","aquarium","historic_site"].includes(type);
             const publicName=/(공원|시민|문화회관|박물관|미술관|체육센터|체육관|운동장|야구장|온천천|금강)/.test(name);
             const knownOperator=operator&&!/(개인|주민|입주자|아파트)/.test(operator);
             if(!trustedType&&!publicName&&!knownOperator)return null;
