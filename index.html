@@ -39,6 +39,8 @@
     const oldCategoryMap={"공공기관":"편리","안전을 돕는 곳":"안전","건강을 돕는 곳":"건강·의료","배움을 돕는 곳":"교육·문화","생활을 돕는 곳":"생활편의","자연·쉼터":"놀이·여가"};
     data=data.map(p=>p.map((v,i)=>i===1?(oldCategoryMap[p[1]]||p[1]):v));
     data=data.map(p=>/(행정복지센터|주민센터|구청|시청)/.test(p[0])?p.map((v,i)=>i===1?"편리":v):p);
+    const majorHospitalNames=new Set(["대동병원","광혜병원","동래봉생병원"]);
+    data=data.filter(p=>p[1]!=="건강·의료"||majorHospitalNames.has(p[0]));
     const cats=[["전체","✨"],["편리","🏛️"],["안전","🛡️"],["건강·의료","💊"],["교육·문화","📚"],["놀이·여가","🎈"],["생활편의","🛒"]];
     let cat="전체",selected=data[0],visited=new Set(),leafletMap=null,leafletMarkers=[];
     const $=id=>document.getElementById(id);
@@ -82,6 +84,7 @@
         const found=json.elements.map(e=>{
           const name=e.tags?.name||"",type=/(파출소|지구대)$/.test(name)?"police":/(행정복지센터|주민센터|구청|시청)$/.test(name)?"townhall":/병원$/.test(name)?"hospital":/미술관$/.test(name)?"gallery":/박물관$/.test(name)?"museum":/도서관$/.test(name)?"library":/학교$/.test(name)?"school":/문화회관$/.test(name)?"arts_centre":/체험관$/.test(name)?"experience":/영화관$/.test(name)?"cinema":/극장$/.test(name)?"theatre":/다이소/.test(name)?"variety_store":/백화점$/.test(name)?"department_store":/마트$/.test(name)?"supermarket":e.tags?.amenity||e.tags?.tourism||e.tags?.healthcare||e.tags?.leisure||e.tags?.shop,info=placeTypes[type],lat=e.lat||e.center?.lat,lng=e.lon||e.center?.lon;
           if(!info||!name||!lat||!lng)return null;
+          if(info[0]==="건강·의료"&&!majorHospitalNames.has(name))return null;
           return [name,info[0],lat,lng,info[1],`${info[2]}으로 등록된 장소예요.`,`필요한 서비스와 도움을 받을 수 있어요.`,`이용 시간은 장소별로 확인`,`방문 전에 운영 시간과 이용 방법을 확인해요.`,`이 장소는 우리 생활의 어떤 불편을 해결해 줄까요?`,"https://www.openstreetmap.org/?mlat="+lat+"&mlon="+lng+"#map=17/"+lat+"/"+lng];
         }).filter(Boolean);
         const merged=[...data,...found],seen=new Set();
