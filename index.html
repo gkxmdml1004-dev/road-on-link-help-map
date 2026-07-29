@@ -38,6 +38,7 @@
     ];
     const oldCategoryMap={"공공기관":"편리·안전","안전을 돕는 곳":"편리·안전","건강을 돕는 곳":"건강·의료","배움을 돕는 곳":"교육·문화","생활을 돕는 곳":"생활편의","자연·쉼터":"놀이·여가"};
     data=data.map(p=>p.map((v,i)=>i===1?(oldCategoryMap[p[1]]||p[1]):v));
+    data=data.map(p=>/(행정복지센터|주민센터|구청|시청)/.test(p[0])?p.map((v,i)=>i===1?"편리·안전":v):p);
     const cats=[["전체","✨"],["편리·안전","🛡️"],["건강·의료","💊"],["교육·문화","📚"],["놀이·여가","🎈"],["생활편의","🛒"]];
     let cat="전체",selected=data[0],visited=new Set(),leafletMap=null,leafletMarkers=[];
     const $=id=>document.getElementById(id);
@@ -69,17 +70,17 @@
       hospital:["건강·의료","🏥","병원"],clinic:["건강·의료","🩺","의원"],pharmacy:["건강·의료","💊","약국"],centre:["건강·의료","❤️","보건·의료센터"],
       school:["교육·문화","🏫","학교"],kindergarten:["교육·문화","🧸","유치원"],college:["교육·문화","🎓","대학"],university:["교육·문화","🎓","대학교"],library:["교육·문화","📚","도서관"],museum:["교육·문화","🏛️","박물관"],arts_centre:["교육·문화","🎨","문화예술시설"],
       park:["놀이·여가","🌳","공원"],playground:["놀이·여가","🛝","놀이터"],sports_centre:["놀이·여가","⚽","체육시설"],stadium:["놀이·여가","🏟️","경기장"],gallery:["놀이·여가","🖼️","미술관"],theatre:["놀이·여가","🎭","극장"],cinema:["놀이·여가","🎬","영화관"],attraction:["놀이·여가","🎈","체험·관광시설"],theme_park:["놀이·여가","🎡","테마파크"],zoo:["놀이·여가","🦁","동물원"],aquarium:["놀이·여가","🐠","수족관"],amusement_arcade:["놀이·여가","🕹️","놀이시설"],escape_game:["놀이·여가","🧩","체험시설"],water_park:["놀이·여가","🏊","물놀이시설"],experience:["놀이·여가","🧪","체험관"],
-      marketplace:["생활편의","🧺","시장"],supermarket:["생활편의","🛒","마트"],mall:["생활편의","🛍️","쇼핑시설"],post_office:["생활편의","📮","우체국"]
+      marketplace:["생활편의","🧺","시장"],supermarket:["생활편의","🛒","대형마트·슈퍼마켓"],mall:["생활편의","🛍️","쇼핑몰"],department_store:["생활편의","🏬","백화점"],variety_store:["생활편의","🧺","생활용품점"],convenience:["생활편의","🏪","편의점"],post_office:["생활편의","📮","우체국"]
     };
     async function loadAllPlaces(){
-      const q='[out:json][timeout:60];area(3604110492)->.a;(nwr(area.a)["amenity"~"^(police|fire_station|townhall|hospital|clinic|pharmacy|school|kindergarten|college|university|library|museum|arts_centre|theatre|cinema|post_office|marketplace)$"];nwr(area.a)["tourism"~"^(museum|gallery|attraction|theme_park|zoo|aquarium)$"];nwr(area.a)["healthcare"~"^(hospital|clinic|pharmacy|centre)$"];nwr(area.a)["leisure"~"^(park|playground|sports_centre|stadium|amusement_arcade|escape_game|water_park)$"];nwr(area.a)["shop"~"^(supermarket|mall)$"];nwr(area.a)["office"="government"]["name"~"(행정복지센터|주민센터|구청|시청)$"];nwr(area.a)["name"~"(파출소|지구대|병원|박물관|미술관|학교|도서관|문화회관|체험관|극장|영화관)$"];);out center tags;';
+      const q='[out:json][timeout:60];area(3604110492)->.a;(nwr(area.a)["amenity"~"^(police|fire_station|townhall|hospital|clinic|pharmacy|school|kindergarten|college|university|library|museum|arts_centre|theatre|cinema|post_office|marketplace)$"];nwr(area.a)["tourism"~"^(museum|gallery|attraction|theme_park|zoo|aquarium)$"];nwr(area.a)["healthcare"~"^(hospital|clinic|pharmacy|centre)$"];nwr(area.a)["leisure"~"^(park|playground|sports_centre|stadium|amusement_arcade|escape_game|water_park)$"];nwr(area.a)["shop"~"^(supermarket|mall|department_store|variety_store|convenience)$"];nwr(area.a)["office"="government"]["name"~"(행정복지센터|주민센터|구청|시청)$"];nwr(area.a)["name"~"(파출소|지구대|병원|박물관|미술관|학교|도서관|문화회관|체험관|극장|영화관|다이소|백화점|마트)$"];);out center tags;';
       try{
         $("mapStatus").textContent="동래구의 도움 장소를 모으고 있어요";
         const response=await fetch("https://overpass-api.de/api/interpreter?data="+encodeURIComponent(q));
         if(!response.ok)throw new Error("장소 데이터 응답 오류");
         const json=await response.json();
         const found=json.elements.map(e=>{
-          const name=e.tags?.name||"",type=/(파출소|지구대)$/.test(name)?"police":/(행정복지센터|주민센터|구청|시청)$/.test(name)?"townhall":/병원$/.test(name)?"hospital":/미술관$/.test(name)?"gallery":/박물관$/.test(name)?"museum":/도서관$/.test(name)?"library":/학교$/.test(name)?"school":/문화회관$/.test(name)?"arts_centre":/체험관$/.test(name)?"experience":/영화관$/.test(name)?"cinema":/극장$/.test(name)?"theatre":e.tags?.amenity||e.tags?.tourism||e.tags?.healthcare||e.tags?.leisure||e.tags?.shop,info=placeTypes[type],lat=e.lat||e.center?.lat,lng=e.lon||e.center?.lon;
+          const name=e.tags?.name||"",type=/(파출소|지구대)$/.test(name)?"police":/(행정복지센터|주민센터|구청|시청)$/.test(name)?"townhall":/병원$/.test(name)?"hospital":/미술관$/.test(name)?"gallery":/박물관$/.test(name)?"museum":/도서관$/.test(name)?"library":/학교$/.test(name)?"school":/문화회관$/.test(name)?"arts_centre":/체험관$/.test(name)?"experience":/영화관$/.test(name)?"cinema":/극장$/.test(name)?"theatre":/다이소/.test(name)?"variety_store":/백화점$/.test(name)?"department_store":/마트$/.test(name)?"supermarket":e.tags?.amenity||e.tags?.tourism||e.tags?.healthcare||e.tags?.leisure||e.tags?.shop,info=placeTypes[type],lat=e.lat||e.center?.lat,lng=e.lon||e.center?.lon;
           if(!info||!name||!lat||!lng)return null;
           return [name,info[0],lat,lng,info[1],`${info[2]}으로 등록된 장소예요.`,`필요한 서비스와 도움을 받을 수 있어요.`,`이용 시간은 장소별로 확인`,`방문 전에 운영 시간과 이용 방법을 확인해요.`,`이 장소는 우리 생활의 어떤 불편을 해결해 줄까요?`,"https://www.openstreetmap.org/?mlat="+lat+"&mlon="+lng+"#map=17/"+lat+"/"+lng];
         }).filter(Boolean);
