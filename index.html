@@ -22,6 +22,7 @@
   <script>
     let data=[
       ["동래구청","공공기관",35.2056,129.0839,"🏛️","동래구의 여러 행정 일을 맡아보는 곳이에요.","생활에 필요한 민원과 지역 정보를 안내받을 수 있어요.","평일 09:00~18:00","방문 전 필요한 서류를 전화나 홈페이지에서 확인해요.","구청은 우리 동네의 어떤 문제를 해결해 줄까요?","https://www.dongnae.go.kr/"],
+      ["부산광역시청","공공기관",35.1798,129.0750,"🏛️","부산광역시의 행정 업무를 맡는 시청이에요.","부산 전체와 관련된 민원과 행정 정보를 안내받을 수 있어요.","평일 09:00~18:00","방문 전 담당 부서와 필요한 서류를 확인해요.","시청과 구청은 맡은 일이 어떻게 다를까요?","https://www.busan.go.kr/"],
       ["사직2동 행정복지센터","생활을 돕는 곳",35.1987,129.0623,"🤝","주민의 생활과 복지를 가까이에서 돕는 곳이에요.","각종 증명서와 복지 서비스 상담을 받을 수 있어요.","평일 09:00~18:00","방문 전에 필요한 서류를 확인해요.","행정복지센터를 이용한다면 언제일까요?","https://www.dongnae.go.kr/"],
       ["부산동래경찰서","안전을 돕는 곳",35.2049,129.0778,"🛡️","우리 지역의 질서와 안전을 지키는 곳이에요.","위험한 일을 신고하고 잃어버린 물건을 문의할 수 있어요.","긴급 신고는 언제나 112","긴급하지 않은 문의와 112 신고를 구분해요.","경찰서가 없다면 생활은 어떻게 달라질까요?","https://www.bspolice.go.kr/dongnae/"],
       ["온천119안전센터","안전을 돕는 곳",35.2191,129.0817,"🚒","화재를 끄고 위급한 사람을 구조하는 곳이에요.","불이나 응급 상황이 생기면 119로 도움을 요청해요.","긴급 출동은 24시간","장난 전화는 꼭 필요한 사람의 도움을 늦출 수 있어요.","가장 가까운 안전센터는 어디일까요?","https://119.busan.go.kr/"],
@@ -68,14 +69,14 @@
       marketplace:["생활편의","🧺","시장"],supermarket:["생활편의","🛒","마트"],mall:["생활편의","🛍️","쇼핑시설"],post_office:["생활편의","📮","우체국"]
     };
     async function loadAllPlaces(){
-      const q='[out:json][timeout:60];area(3604110492)->.a;(nwr(area.a)["amenity"~"^(police|fire_station|townhall|hospital|clinic|pharmacy|school|library|museum|post_office|marketplace)$"];nwr(area.a)["leisure"~"^(park|playground|sports_centre|stadium|arts_centre)$"];nwr(area.a)["shop"~"^(supermarket|mall)$"];);out center tags;';
+      const q='[out:json][timeout:60];area(3604110492)->.a;(nwr(area.a)["amenity"~"^(police|fire_station|townhall|hospital|clinic|pharmacy|school|library|museum|post_office|marketplace)$"];nwr(area.a)["leisure"~"^(park|playground|sports_centre|stadium|arts_centre)$"];nwr(area.a)["shop"~"^(supermarket|mall)$"];nwr(area.a)["office"="government"]["name"~"(행정복지센터|주민센터|구청|시청)$"];nwr(area.a)["name"~"(파출소|지구대)$"];);out center tags;';
       try{
         $("mapStatus").textContent="동래구의 도움 장소를 모으고 있어요";
         const response=await fetch("https://overpass-api.de/api/interpreter?data="+encodeURIComponent(q));
         if(!response.ok)throw new Error("장소 데이터 응답 오류");
         const json=await response.json();
         const found=json.elements.map(e=>{
-          const type=e.tags?.amenity||e.tags?.leisure||e.tags?.shop,info=placeTypes[type],name=e.tags?.name,lat=e.lat||e.center?.lat,lng=e.lon||e.center?.lon;
+          const name=e.tags?.name||"",type=/(파출소|지구대)$/.test(name)?"police":/(행정복지센터|주민센터|구청|시청)$/.test(name)?"townhall":e.tags?.amenity||e.tags?.leisure||e.tags?.shop,info=placeTypes[type],lat=e.lat||e.center?.lat,lng=e.lon||e.center?.lon;
           if(!info||!name||!lat||!lng)return null;
           return [name,info[0],lat,lng,info[1],`${info[2]}으로 등록된 장소예요.`,`필요한 서비스와 도움을 받을 수 있어요.`,`이용 시간은 장소별로 확인`,`방문 전에 운영 시간과 이용 방법을 확인해요.`,`이 장소는 우리 생활의 어떤 불편을 해결해 줄까요?`,"https://www.openstreetmap.org/?mlat="+lat+"&mlon="+lng+"#map=17/"+lat+"/"+lng];
         }).filter(Boolean);
