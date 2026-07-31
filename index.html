@@ -36,10 +36,23 @@
       .header-shell{grid-template-columns:92px minmax(0,1fr);grid-template-rows:72px 52px;padding:8px 10px}
       .header-shell>.brand-icon{width:84px;height:84px;border-radius:19px;align-self:start}
       .header-shell>.top{padding:2px 0 5px 8px}
-      .header-title h1{font-size:22px}
+      .header-title h1{font-size:19px;letter-spacing:-.05em}
+      .title-row{flex-wrap:nowrap;gap:6px}
+      .title-reset{flex:0 0 60px;width:60px;padding:7px 5px;font-size:0;white-space:nowrap}
+      .title-reset:before{content:"↩ 처음";font-size:12px}
       .header-shell>.topics{grid-column:1/3;padding:6px 0 0}
       .topics button{padding:9px 13px;font-size:14px}
       .map{height:430px;min-height:0}
+    }
+    @media(max-width:420px){
+      .header-shell{grid-template-columns:78px minmax(0,1fr)}
+      .header-shell>.brand-icon{width:70px;height:70px;border-radius:17px}
+      .header-shell>.top{padding-left:6px}
+      .header-title small{font-size:11px}
+      .header-title h1{font-size:clamp(16px,5vw,19px)}
+      .title-row{gap:4px}
+      .title-reset{flex-basis:52px;width:52px;padding-inline:3px}
+      .title-reset:before{font-size:11px}
     }
   </style>
 </head>
