@@ -91,6 +91,9 @@
       ["동래구국민체육센터","놀이·여가",35.2010,129.0702,"🏊","동래구가 운영하는 공공 체육시설이에요.","수영과 운동을 배우고 즐기며 몸을 건강하게 가꾸도록 도와줘요.","","","공공 체육시설은 우리 건강에 어떤 도움을 줄까요?","https://sports.dongnae.go.kr/","","체육시설"],
       ["동래문화회관","놀이·여가",35.2077,129.0889,"🎭","공연과 전시를 만날 수 있는 공공 문화시설이에요.","공연과 예술 활동을 경험하며 생각과 느낌을 넓히도록 도와줘요.","","","문화회관에서는 어떤 새로운 경험을 할 수 있을까요?","https://www.dongnae.go.kr/culture/","https://www.dongnae.go.kr/images/tour/contents/sub01/img_1_6_2.jpg","문화회관"],
       ["롯데시네마 동래","놀이·여가",35.2209,129.0855,"🎬","여러 사람이 함께 영화를 관람하는 영화관이에요.","영화 속 다양한 이야기와 생각을 경험하며 문화생활을 즐기도록 도와줘요.","","","영화를 보고 친구들과 어떤 이야기를 나눌 수 있을까요?","https://www.lottecinema.co.kr/","","극장·영화관"],
+      ["복천박물관","교육·문화",35.2087,129.0914,"🏛️","복천동 고분군에서 발견된 유물과 가야 문화를 살펴보는 공공 박물관이에요.","실제 유물과 전시를 보며 우리 지역의 역사와 옛사람들의 생활을 배우도록 도와줘요.","","","박물관의 유물은 우리 지역의 옛 모습을 어떻게 알려 줄까요?","https://museum.busan.go.kr/bokcheon/","","박물관"],
+      ["부산해양자연사박물관","교육·문화",35.2216,129.0765,"🐋","바다 생물과 자연환경을 전시하는 공공 박물관이에요.","다양한 해양 생물 자료를 보며 바다와 자연을 이해하도록 도와줘요.","","","바다 생물을 보호하려면 우리가 무엇을 할 수 있을까요?","https://www.busan.go.kr/sea/","","박물관"],
+      ["동래읍성역사관","교육·문화",35.2103,129.0910,"🏯","동래읍성과 동래 지역의 역사를 소개하는 공공 전시관이에요.","지도와 유물, 설명 자료를 통해 우리 지역의 역사와 문화를 배우도록 도와줘요.","","","동래읍성은 우리 지역의 어떤 이야기를 전해 줄까요?","https://www.dongnae.go.kr/tour/","","박물관"],
       ["충렬사","교육·문화",35.1994,129.0976,"🏛️","임진왜란 때 나라와 지역을 지킨 분들을 기리는 역사 문화유산이에요.","우리 지역의 역사와 선조들의 마음을 배우도록 도와줘요.","","","충렬사에서 우리가 기억해야 할 역사는 무엇일까요?","https://www.dongnae.go.kr/index.dongnae?menuCd=DOM_000000401003012003","https://www.dongnae.go.kr/images/tour/contents/sub01/img_1_3_9.jpg","문화유산"]
     ];
     const schoolDefaults=[
@@ -246,9 +249,21 @@
     window.initPublicMap=function(){
       if(!window.L){$("mapStatus").textContent="지도를 다시 불러와 주세요";return}
       render();
-      leafletMap=L.map("naverMap",{minZoom:12,maxZoom:17,maxBounds:busanBounds,maxBoundsViscosity:1,scrollWheelZoom:false,doubleClickZoom:false}).setView(initialCenter,initialZoom);
+      leafletMap=L.map("naverMap",{minZoom:12,maxZoom:17,scrollWheelZoom:false,doubleClickZoom:false}).setView(initialCenter,initialZoom);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"}).addTo(leafletMap);
-      $("mapShell").classList.add("live");$("markers").style.display="none";$("mapStatus").textContent="마커를 눌러 장소를 탐구해 보세요";renderMapMarkers();loadAllPlaces();
+      let returningToBusan=false;
+      leafletMap.on("moveend",()=>{
+        if(returningToBusan)return;
+        const center=leafletMap.getCenter();
+        const inside=center.lat>=busanBounds[0][0]&&center.lat<=busanBounds[1][0]&&center.lng>=busanBounds[0][1]&&center.lng<=busanBounds[1][1];
+        if(!inside){
+          returningToBusan=true;
+          $("mapStatus").textContent="부산에서 벗어났습니다. 원래 지역으로 돌아갑니다.";
+          leafletMap.setView(initialCenter,initialZoom,{animate:true});
+          setTimeout(()=>{returningToBusan=false;$("mapStatus").textContent="마커를 눌러 장소를 탐구해 보세요"},1900);
+        }
+      });
+      $("mapShell").classList.add("live");$("markers").style.display="none";$("mapStatus").textContent="승인된 장소를 고정해서 표시했어요";renderMapMarkers();
     };
     $("resetMap").onclick=function(){
       $("mapStatus").textContent="원래 지도 위치로 이동합니다.";
