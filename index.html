@@ -63,15 +63,20 @@
       if(/시청|구청/.test(n))return"시청·구청";if(/행정복지센터|주민센터/.test(n))return"행정복지센터";
       if(/경찰서|파출소|지구대/.test(n))return"경찰";if(/소방|119/.test(n))return"소방";
       if(/보건소/.test(n))return"보건소";if(/병원/.test(n))return"종합병원";
-      if(/초등학교/.test(n))return"초등학교";if(/도서관/.test(n))return"도서관";if(/박물관/.test(n))return"박물관";if(/미술관/.test(n))return"미술관";if(/충렬사|문화유산/.test(n))return"문화유산";
+      if(/학교|유치원/.test(n))return"학교";if(/도서관/.test(n))return"도서관";if(/박물관/.test(n))return"박물관";if(/미술관/.test(n))return"미술관";if(/충렬사|문화유산/.test(n))return"문화유산";
       if(/공원|온천천/.test(n))return"공원";if(/극장|영화관/.test(n))return"극장·영화관";if(/체육|운동장|야구장/.test(n))return"체육시설";if(/문화회관/.test(n))return"문화회관";
       if(/다이소/.test(n))return"다이소";if(/백화점/.test(n))return"백화점";if(/마트/.test(n))return"대형마트";if(/시장/.test(n))return"시장";if(/우체국/.test(n))return"우체국";
       if(/경찰|파출소|지구대/.test(raw))return"경찰";if(/소방|안전센터|119/.test(raw))return"소방";
       if(/시청|구청/.test(raw))return"시청·구청";if(/행정복지|주민센터/.test(raw))return"행정복지센터";
       if(/^(극장|영화관|극장·영화관)$/.test(raw))return"극장·영화관";
+      if(/학교|유치원/.test(raw))return"학교";
       return raw||"기타";
     }
-    function filtered(){const group=cat==="전체"?data:data.filter(p=>p[1]===cat);return subcat==="전체"?group:group.filter(p=>subtype(p)===subcat)}
+    function filtered(){
+      const group=cat==="전체"?data:data.filter(p=>p[1]===cat);
+      if(subcat!=="전체")return group.filter(p=>subtype(p)===subcat);
+      return group.filter(p=>subtype(p)!=="학교");
+    }
     function select(p){selected=p;visited.add(p[0]);$("progress").textContent=visited.size+" / "+data.length;render();if(leafletMap)leafletMap.panTo([p[2],p[3]])}
     function render(){
       $("topics").innerHTML=cats.map(c=>`<button class="${cat===c[0]?"on":""}" data-cat="${c[0]}">${c[1]} ${c[0]}</button>`).join("");
