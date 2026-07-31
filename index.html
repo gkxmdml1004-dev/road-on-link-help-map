@@ -133,7 +133,7 @@
     data=data.filter(p=>p[1]!=="건강·의료"||majorHospitalNames.has(p[0]));
     const cats=[["전체","✨"],["편리","🏛️"],["안전","🛡️"],["건강·의료","💊"],["교육·문화","📚"],["놀이·여가","🎈"],["생활편의","🛒"]];
     const initialCenter=[35.2056,129.0786],initialZoom=14,busanBounds=[[34.95,128.75],[35.40,129.32]];
-    let cat="전체",subcat="전체",selected=data[0],visited=new Set(),leafletMap=null,leafletMarkers=[];
+    let cat="전체",subcat="전체",selected=data[0],visited=new Set(),leafletMap=null,leafletMarkers=[],naverMap=null,naverMarkers=[],mapEngine="";
     const $=id=>document.getElementById(id);
     function subtype(p){
       const n=p[0],raw=p[12]||"";
@@ -154,7 +154,7 @@
       if(subcat!=="전체")return group.filter(p=>subtype(p)===subcat);
       return group.filter(p=>subtype(p)!=="학교");
     }
-    function select(p){selected=p;visited.add(p[0]);$("progress").textContent=visited.size+" / "+data.length;render();if(leafletMap)leafletMap.panTo([p[2],p[3]])}
+    function select(p){selected=p;visited.add(p[0]);$("progress").textContent=visited.size+" / "+data.length;render();if(leafletMap)leafletMap.panTo([p[2],p[3]]);if(naverMap)naverMap.panTo(new naver.maps.LatLng(p[2],p[3]))}
     function render(){
       $("topics").innerHTML=cats.map(c=>`<button class="${cat===c[0]?"on":""}" data-cat="${c[0]}">${c[1]} ${c[0]}</button>`).join("");
       const group=cat==="전체"?[]:data.filter(p=>p[1]===cat),subs=[...new Set(group.map(subtype))].sort((a,b)=>a.localeCompare(b,"ko"));
@@ -170,6 +170,18 @@
       renderMapMarkers();
     }
     function renderMapMarkers(){
+      if(naverMap&&window.naver?.maps){
+        naverMarkers.forEach(m=>m.setMap(null));
+        naverMarkers=filtered().map(p=>{
+          const active=selected===p,marker=new naver.maps.Marker({
+            position:new naver.maps.LatLng(p[2],p[3]),map:naverMap,title:p[0],
+            icon:{content:`<button class="naver-pin ${active?"active":""}" aria-label="${p[0]}"><i>${active?"✓":p[4]}</i><b>${p[0]}</b></button>`,anchor:new naver.maps.Point(60,54)}
+          });
+          naver.maps.Event.addListener(marker,"click",()=>select(p));
+          return marker;
+        });
+        return;
+      }
       if(!leafletMap||!window.L)return;
       leafletMarkers.forEach(m=>m.remove());
       leafletMarkers=filtered().map(p=>{
@@ -253,8 +265,22 @@
         $("mapStatus").textContent="기본 장소를 표시했어요 · 잠시 후 새로고침하면 전체 장소를 불러와요";
       }
     }
+    function centerInsideBusan(lat,lng){return lat>=busanBounds[0][0]&&lat<=busanBounds[1][0]&&lng>=busanBounds[0][1]&&lng<=busanBounds[1][1]}
+    function showReturnMessage(){
+      $("mapStatus").textContent="부산에서 벗어났습니다. 원래 지역으로 돌아갑니다.";
+      setTimeout(()=>{$("mapStatus").textContent="마커를 눌러 장소를 탐구해 보세요"},1900);
+    }
+    window.initNaverMap=function(){
+      if(mapEngine||!window.naver?.maps)return;
+      mapEngine="naver";clearTimeout(window.mapFallbackTimer);
+      naverMap=new naver.maps.Map("naverMap",{center:new naver.maps.LatLng(...initialCenter),zoom:initialZoom,minZoom:12,maxZoom:17,scrollWheel:false,disableDoubleClickZoom:true});
+      naver.maps.Event.addListener(naverMap,"dragend",()=>{const c=naverMap.getCenter();if(!centerInsideBusan(c.lat(),c.lng())){showReturnMessage();naverMap.setCenter(new naver.maps.LatLng(...initialCenter));naverMap.setZoom(initialZoom)}});
+      $("mapShell").classList.add("live");$("markers").style.display="none";$("mapStatus").textContent="네이버 지도로 승인된 장소를 표시했어요";render();renderMapMarkers();
+    };
     window.initPublicMap=function(){
+      if(mapEngine)return;
       if(!window.L){$("mapStatus").textContent="지도를 다시 불러와 주세요";return}
+      mapEngine="open";
       render();
       leafletMap=L.map("naverMap",{minZoom:12,maxZoom:17,scrollWheelZoom:false,doubleClickZoom:false}).setView(initialCenter,initialZoom);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap contributors"}).addTo(leafletMap);
@@ -262,12 +288,12 @@
       leafletMap.on("moveend",()=>{
         if(returningToBusan)return;
         const center=leafletMap.getCenter();
-        const inside=center.lat>=busanBounds[0][0]&&center.lat<=busanBounds[1][0]&&center.lng>=busanBounds[0][1]&&center.lng<=busanBounds[1][1];
+        const inside=centerInsideBusan(center.lat,center.lng);
         if(!inside){
           returningToBusan=true;
-          $("mapStatus").textContent="부산에서 벗어났습니다. 원래 지역으로 돌아갑니다.";
+          showReturnMessage();
           leafletMap.setView(initialCenter,initialZoom,{animate:true});
-          setTimeout(()=>{returningToBusan=false;$("mapStatus").textContent="마커를 눌러 장소를 탐구해 보세요"},1900);
+          setTimeout(()=>{returningToBusan=false},1900);
         }
       });
       $("mapShell").classList.add("live");$("markers").style.display="none";$("mapStatus").textContent="승인된 장소를 고정해서 표시했어요";renderMapMarkers();
@@ -275,12 +301,17 @@
     $("resetMap").onclick=function(){
       $("mapStatus").textContent="원래 지도 위치로 이동합니다.";
       if(leafletMap)leafletMap.setView(initialCenter,initialZoom,{animate:true});
+      if(naverMap){naverMap.setCenter(new naver.maps.LatLng(...initialCenter));naverMap.setZoom(initialZoom)}
       setTimeout(()=>{$("mapStatus").textContent="마커를 눌러 장소를 탐구해 보세요"},1800);
     };
   </script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    window.initPublicMap();
+    window.mapFallbackTimer=setTimeout(()=>window.initPublicMap(),3500);
+    const naverScript=document.createElement("script");
+    naverScript.src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=6kyen4rscl&callback=initNaverMap";
+    naverScript.onerror=()=>window.initPublicMap();
+    document.head.appendChild(naverScript);
   </script>
 </body>
 </html>
