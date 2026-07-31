@@ -13,6 +13,21 @@
     .title-reset{border:0;border-radius:12px;padding:8px 12px;background:#6652c5;color:#fff;font-size:14px;font-weight:900;box-shadow:0 4px 12px #33287333;cursor:pointer}
     .notice{left:64px;top:16px}
     @media(max-width:600px){.brand-icon{width:54px;height:54px}.title-row{gap:8px}.title-reset{padding:7px 10px;font-size:12px}.notice{left:52px;top:12px}}
+    /* 승인된 2단 머리글: 왼쪽 큰 아이콘, 오른쪽 제목과 카테고리 */
+    .top{padding:18px 4vw 12px;align-items:flex-start}
+    .brand{gap:18px;align-items:center}
+    .brand-icon{width:92px;height:92px;border-radius:22px;flex:0 0 92px}
+    .brand h1{font-size:clamp(28px,3vw,42px)}
+    .topics{padding:10px 4vw 14px;padding-left:calc(4vw + 110px)}
+    .topics button{padding:11px 17px;font-size:16px}
+    @media(max-width:760px){
+      .top{padding:12px}
+      .brand{gap:12px}
+      .brand-icon{width:72px;height:72px;flex-basis:72px;border-radius:18px}
+      .brand h1{font-size:22px}
+      .topics{padding:9px 12px}
+      .topics button{padding:9px 13px;font-size:14px}
+    }
   </style>
 </head>
 <body>
@@ -49,6 +64,29 @@
       ["롯데시네마 동래","놀이·여가",35.2209,129.0855,"🎬","여러 사람이 함께 영화를 관람하는 영화관이에요.","영화 속 다양한 이야기와 생각을 경험하며 문화생활을 즐기도록 도와줘요.","","","영화를 보고 친구들과 어떤 이야기를 나눌 수 있을까요?","https://www.lottecinema.co.kr/","","극장·영화관"],
       ["충렬사","교육·문화",35.1994,129.0976,"🏛️","임진왜란 때 나라와 지역을 지킨 분들을 기리는 역사 문화유산이에요.","우리 지역의 역사와 선조들의 마음을 배우도록 도와줘요.","","","충렬사에서 우리가 기억해야 할 역사는 무엇일까요?","https://www.dongnae.go.kr/index.dongnae?menuCd=DOM_000000401003012003","https://www.dongnae.go.kr/images/tour/contents/sub01/img_1_3_9.jpg","문화유산"]
     ];
+    const schoolDefaults=[
+      ["금강초등학교",35.2028339,129.0645146],["교동초등학교",35.2154562,129.0917494],
+      ["낙민초등학교",35.1990541,129.0883552],["내산초등학교",35.2071469,129.0765505],
+      ["내성초등학교",35.2045266,129.0897696],["달북초등학교",35.2034465,129.0601538],
+      ["명동초등학교",35.2072411,129.1063319],["명륜초등학교",35.2080544,129.0835017],
+      ["명서초등학교",35.2118463,129.1010013],["명장초등학교",35.2080917,129.0968643],
+      ["미남초등학교",35.2035031,129.0728108],["사직초등학교",35.2008384,129.0546923],
+      ["수안초등학교",35.2013,129.0879],["안남초등학교",35.1917312,129.1081611],
+      ["안락초등학교",35.2019741,129.1035352],["안민초등학교",35.1939673,129.0940593],
+      ["안진초등학교",35.1948065,129.0993759],["여고초등학교",35.1979251,129.0695650],
+      ["예원초등학교",35.1957103,129.0574375],["온샘초등학교",35.2096441,129.0683810],
+      ["온천초등학교",35.2122985,129.0738539],["충렬초등학교",35.1999610,129.1115888],
+      ["혜화초등학교",35.2017823,129.1128795]
+    ];
+    schoolDefaults.forEach(([name,lat,lng])=>{
+      if(!data.some(p=>p[0]===name))data.push([
+        name,"교육·문화",lat,lng,"🏫",
+        "어린이들이 배우고 친구들과 함께 생활하는 초등학교예요.",
+        "교과 공부뿐 아니라 친구 관계, 안전한 생활 습관과 공동체 생활을 배우도록 도와줘요.",
+        "","","초등학교는 어린이의 성장에 어떤 도움을 줄까요?",
+        "https://www.schoolinfo.go.kr/","","초등학교"
+      ]);
+    });
     const oldCategoryMap={"공공기관":"편리","안전을 돕는 곳":"안전","건강을 돕는 곳":"건강·의료","배움을 돕는 곳":"교육·문화","생활을 돕는 곳":"생활편의","자연·쉼터":"놀이·여가"};
     data=data.map(p=>p.map((v,i)=>i===1?(oldCategoryMap[p[1]]||p[1]):v));
     data=data.map(p=>/(행정복지센터|주민센터|구청|시청)/.test(p[0])?p.map((v,i)=>i===1?"편리":v):p);
