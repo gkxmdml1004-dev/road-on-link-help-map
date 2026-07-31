@@ -271,11 +271,18 @@
       setTimeout(()=>{$("mapStatus").textContent="마커를 눌러 장소를 탐구해 보세요"},1900);
     }
     window.initNaverMap=function(){
+      document.documentElement.dataset.naverCallback="called";
       if(mapEngine||!window.naver?.maps)return;
-      mapEngine="naver";clearTimeout(window.mapFallbackTimer);
-      naverMap=new naver.maps.Map("naverMap",{center:new naver.maps.LatLng(...initialCenter),zoom:initialZoom,minZoom:12,maxZoom:17,scrollWheel:false,disableDoubleClickZoom:true});
-      naver.maps.Event.addListener(naverMap,"dragend",()=>{const c=naverMap.getCenter();if(!centerInsideBusan(c.lat(),c.lng())){showReturnMessage();naverMap.setCenter(new naver.maps.LatLng(...initialCenter));naverMap.setZoom(initialZoom)}});
-      $("mapShell").classList.add("live");$("markers").style.display="none";$("mapStatus").textContent="네이버 지도로 승인된 장소를 표시했어요";render();renderMapMarkers();
+      try{
+        naverMap=new naver.maps.Map("naverMap",{center:new naver.maps.LatLng(initialCenter[0],initialCenter[1]),zoom:initialZoom,minZoom:12,maxZoom:17,scrollWheel:false,disableDoubleClickZoom:true,zoomControl:true,zoomControlOptions:{position:naver.maps.Position.TOP_RIGHT}});
+        mapEngine="naver";clearTimeout(window.mapFallbackTimer);
+        naver.maps.Event.addListener(naverMap,"dragend",()=>{const c=naverMap.getCenter();if(!centerInsideBusan(c.lat(),c.lng())){showReturnMessage();naverMap.setCenter(new naver.maps.LatLng(initialCenter[0],initialCenter[1]));naverMap.setZoom(initialZoom)}});
+        $("mapShell").classList.add("live");$("markers").style.display="none";$("mapStatus").textContent="네이버 지도로 승인된 장소를 표시했어요";render();renderMapMarkers();
+        document.documentElement.dataset.naverReady="true";
+      }catch(error){
+        document.documentElement.dataset.naverError=error?.message||String(error);
+        mapEngine="";window.fallbackRequested=true;if(window.L)window.initPublicMap();
+      }
     };
     window.initPublicMap=function(){
       if(mapEngine)return;
@@ -309,7 +316,13 @@
   </script>
   <script>
     window.fallbackRequested=false;
-    window.mapFallbackTimer=setTimeout(()=>{window.fallbackRequested=true;if(window.L)window.initPublicMap();else $("mapStatus").textContent="기본 장소 지도를 표시했어요"},2800);
+    function requestFallback(){
+      if(mapEngine)return;
+      window.fallbackRequested=true;
+      if(window.L)window.initPublicMap();else $("mapStatus").textContent="기본 장소 지도를 표시했어요";
+    }
+    window.navermap_authFailure=requestFallback;
+    window.mapFallbackTimer=setTimeout(()=>{if(!window.naver?.maps?.Map)requestFallback()},15000);
     function loadOpenMap(url,tryBackup){
       const script=document.createElement("script");
       script.src=url;
@@ -319,8 +332,10 @@
     }
     loadOpenMap("https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js",true);
     const naverScript=document.createElement("script");
-    naverScript.src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=6kyen4rscl&callback=initNaverMap";
-    naverScript.onerror=()=>{window.fallbackRequested=true;if(window.L)window.initPublicMap()};
+    naverScript.src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId="+encodeURIComponent("6kyen4rscl");
+    naverScript.async=true;
+    naverScript.onload=()=>window.initNaverMap();
+    naverScript.onerror=requestFallback;
     document.head.appendChild(naverScript);
   </script>
 </body>
