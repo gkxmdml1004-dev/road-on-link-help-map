@@ -13,26 +13,30 @@
     .title-reset{border:0;border-radius:12px;padding:8px 12px;background:#6652c5;color:#fff;font-size:14px;font-weight:900;box-shadow:0 4px 12px #33287333;cursor:pointer}
     .notice{left:64px;top:16px}
     @media(max-width:600px){.brand-icon{width:54px;height:54px}.title-row{gap:8px}.title-reset{padding:7px 10px;font-size:12px}.notice{left:52px;top:12px}}
-    /* 승인된 2단 머리글: 왼쪽 큰 아이콘, 오른쪽 제목과 카테고리 */
-    .top{padding:18px 4vw 12px;align-items:flex-start}
-    .brand{gap:18px;align-items:center}
-    .brand-icon{width:92px;height:92px;border-radius:22px;flex:0 0 92px}
-    .brand h1{font-size:clamp(28px,3vw,42px)}
-    .topics{padding:10px 4vw 14px;padding-left:calc(4vw + 110px)}
-    .topics button{padding:11px 17px;font-size:16px}
+    /* 왼쪽 아이콘은 두 줄 전체, 오른쪽은 앱 이름 2 : 카테고리 1 */
+    .header-shell{display:grid;grid-template-columns:112px minmax(0,1fr);grid-template-rows:2fr 1fr;padding:12px 4vw 10px;background:linear-gradient(100deg,#fffdf8,#f2edff);border-bottom:1px solid #e4ddf0}
+    .header-shell>.brand-icon{grid-column:1;grid-row:1/3;width:96px;height:96px;border-radius:23px;align-self:center;justify-self:start}
+    .header-shell>.top{grid-column:2;grid-row:1;padding:4px 0 8px;background:transparent;border:0;align-items:center}
+    .header-title h1{font-size:clamp(28px,3vw,42px)}
+    .header-title small{color:#725fbd;font-weight:800}
+    .header-shell>.topics{grid-column:2;grid-row:2;padding:6px 0 0;background:transparent;align-self:end}
+    .topics button{padding:10px 16px;font-size:16px}
     @media(max-width:760px){
-      .top{padding:12px}
-      .brand{gap:12px}
-      .brand-icon{width:72px;height:72px;flex-basis:72px;border-radius:18px}
-      .brand h1{font-size:22px}
-      .topics{padding:9px 12px}
+      .header-shell{grid-template-columns:82px minmax(0,1fr);padding:10px 12px 8px}
+      .header-shell>.brand-icon{width:70px;height:70px;border-radius:18px}
+      .header-shell>.top{padding:2px 0 5px}
+      .header-title h1{font-size:22px}
+      .header-shell>.topics{padding:5px 0 0}
       .topics button{padding:9px 13px;font-size:14px}
     }
   </style>
 </head>
 <body>
-  <header class="top"><div class="brand"><img class="brand-icon" src="./app-icon.png" alt="ROAD ON LINK 우리 주변의 장소 탐구 아이콘"><div><small>ROAD ON LINK · 우리 동네 탐구</small><div class="title-row"><h1>우리 지역 도움 장소 지도</h1><button class="title-reset" id="resetMap" type="button">↩ 처음 위치로</button></div></div></div><div class="progress">탐구한 장소 <span id="progress">0 / 10</span></div></header>
-  <nav class="topics" id="topics" aria-label="장소 주제 선택"></nav>
+  <div class="header-shell">
+    <img class="brand-icon" src="./app-icon.png" alt="ROAD ON LINK 우리 주변의 장소 탐구 아이콘">
+    <header class="top"><div class="header-title"><small>ROAD ON LINK · 우리 동네 탐구</small><div class="title-row"><h1>우리 지역 도움 장소 지도</h1><button class="title-reset" id="resetMap" type="button">↩ 처음 위치로</button></div></div><div class="progress">탐구한 장소 <span id="progress">0 / 10</span></div></header>
+    <nav class="topics" id="topics" aria-label="장소 주제 선택"></nav>
+  </div>
   <nav class="subtopics" id="subtopics" aria-label="세부 장소 종류 선택"></nav>
   <section class="video"><b>▶ 함께 보고 알아봐요</b><a href="https://www.youtube.com/results?search_query=우리+동네+공공기관+초등" target="_blank">🎬 도움 장소 알아보기</a><a href="https://www.youtube.com/results?search_query=경찰서+소방서+하는+일+어린이" target="_blank">🚒 경찰서·소방서가 하는 일</a><span>🌱 새 영상 준비 중</span></section>
   <main class="workspace">
