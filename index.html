@@ -12,6 +12,7 @@
     .naver-map{width:100%!important;height:100%!important;opacity:1!important;transition:none!important}
     .map-toast{position:absolute;z-index:900;left:50%;top:50%;width:min(430px,calc(100% - 36px));padding:20px 22px;border:4px solid #fff;border-radius:22px;background:#6652c5ee;color:#fff;box-shadow:0 12px 35px #25204466;text-align:center;font-size:20px;font-weight:900;line-height:1.45;opacity:0;visibility:hidden;transform:translate(-50%,-42%) scale(.94);transition:opacity .2s,transform .2s,visibility .2s;pointer-events:none}.map-toast.show{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}.map-toast small{display:block;margin-top:5px;color:#fff7bf;font-size:14px}
     .explore-jump{display:none}
+    .teacher-entry{position:fixed;z-index:1100;left:18px;bottom:18px;width:62px;height:62px;border:4px solid #fff;border-radius:50%;background:#293148;color:#fff;box-shadow:0 8px 24px #20263d55;font-size:12px;font-weight:900;cursor:pointer}.teacher-entry span{display:block;font-size:23px;line-height:1}.teacher-overlay,.teacher-panel{position:fixed;z-index:2000;inset:0;display:none}.teacher-overlay.show,.teacher-panel.show{display:flex}.teacher-overlay{align-items:center;justify-content:center;padding:20px;background:#20253a99;backdrop-filter:blur(5px)}.teacher-login{width:min(390px,100%);padding:28px;border-radius:25px;background:#fff;box-shadow:0 18px 50px #171b2f66;text-align:center}.teacher-login .lock{font-size:42px}.teacher-login h2{margin:8px 0}.teacher-login p{margin:0 0 18px;color:#6f6978;line-height:1.5}.teacher-login input{width:100%;padding:14px;border:2px solid #dcd5ea;border-radius:13px;text-align:center;font-size:22px;font-weight:900;letter-spacing:.25em}.teacher-login-actions{display:flex;gap:8px;margin-top:12px}.teacher-login-actions button{flex:1;padding:12px;border:0;border-radius:12px;font-weight:900;cursor:pointer}.teacher-login-actions .cancel{background:#eeeaf2;color:#625c6a}.teacher-login-actions .enter{background:#6652c5;color:#fff}.teacher-error{min-height:22px;margin-top:8px!important;color:#d53f58!important;font-weight:800}.teacher-panel{z-index:2100;flex-direction:column;background:#f5f2fb;overflow:auto}.teacher-panel-head{position:sticky;z-index:2;top:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 4vw;background:#293148;color:#fff;box-shadow:0 4px 18px #20263d33}.teacher-panel-head h2{margin:0;font-size:clamp(21px,3vw,31px)}.teacher-panel-head small{display:block;margin-top:4px;color:#d8d2ef}.teacher-close{border:2px solid #ffffff88;border-radius:12px;padding:9px 13px;background:transparent;color:#fff;font-weight:900;cursor:pointer}.teacher-cats{position:sticky;z-index:2;top:78px;display:flex;gap:8px;padding:12px 4vw;overflow:auto;background:#fff;border-bottom:1px solid #e2ddea}.teacher-cats button{flex:0 0 auto;padding:9px 14px;border:1px solid #dcd5e8;border-radius:99px;background:#faf9fc;font-weight:900;cursor:pointer}.teacher-cats button.on{border-color:#6652c5;background:#6652c5;color:#fff}.teacher-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;padding:20px 4vw 40px}.teacher-place{overflow:hidden;border-radius:20px;background:#fff;box-shadow:0 7px 22px #302a4717}.teacher-photo{height:170px;display:grid;place-items:center;background:#ece8f4;color:#81788c;font-weight:900}.teacher-photo img{width:100%;height:100%;object-fit:cover}.teacher-place-body{padding:17px}.teacher-place .teacher-category{display:inline-block;padding:4px 8px;border-radius:7px;background:#efecff;color:#5947b0;font-size:11px;font-weight:900}.teacher-place h3{margin:8px 0 6px;font-size:20px}.teacher-kind{color:#776f80;font-size:12px;font-weight:800}.teacher-description{margin:12px 0 0;line-height:1.55}.teacher-help{margin:12px 0 0;padding:12px;border-radius:13px;background:#fff5bd;line-height:1.55}.teacher-source{display:inline-block;margin-top:12px;color:#5947b0;font-size:13px;font-weight:900;text-decoration:none}
     .title-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
     .title-reset{border:0;border-radius:12px;padding:8px 12px;background:#6652c5;color:#fff;font-size:14px;font-weight:900;box-shadow:0 4px 12px #33287333;cursor:pointer}
     .notice{left:64px;top:16px}
@@ -80,6 +81,9 @@
     <article class="card" id="placeCard"><div class="card-top"><div class="icon" id="icon"></div><div><span class="category" id="category"></span><h2 id="title"></h2><p class="desc" id="desc"></p></div></div><div class="place-photo"><img id="placePhoto" alt=""><span id="photoStatus">장소 사진을 찾고 있어요</span></div><div class="help"><b>💡 이곳은 어떤 도움을 줄까요?</b><p id="help"></p></div><div class="question"><b>생각 톡톡!</b><p id="question"></p></div><div class="actions"><a id="source" target="_blank">장소 정보 보기 ↗</a><span>사진은 공개 자료를 사용해요</span></div><div class="place-list" id="list"></div></article>
   </main>
   <button class="explore-jump" id="exploreJump" type="button"><span class="down">↓</span><strong id="exploreJumpText">선택한 장소 탐구하기</strong></button>
+  <button class="teacher-entry" id="teacherEntry" type="button" aria-label="교사용 자료 열기"><span>👩‍🏫</span>교사용</button>
+  <div class="teacher-overlay" id="teacherLogin" aria-hidden="true"><form class="teacher-login" id="teacherLoginForm"><div class="lock">🔐</div><h2>선생님용입니다</h2><p>교사용 자료를 보려면<br>비밀번호를 입력해주세요.</p><input id="teacherPassword" type="password" inputmode="numeric" autocomplete="off" aria-label="교사용 비밀번호" maxlength="12"><p class="teacher-error" id="teacherError" role="alert"></p><div class="teacher-login-actions"><button class="cancel" id="teacherLoginCancel" type="button">취소</button><button class="enter" type="submit">열기</button></div></form></div>
+  <section class="teacher-panel" id="teacherPanel" aria-hidden="true"><header class="teacher-panel-head"><div><h2>👩‍🏫 교사용 장소 자료</h2><small>주제별 장소·설명·공개 사진을 한눈에 확인하세요.</small></div><button class="teacher-close" id="teacherClose" type="button">✕ 닫기</button></header><nav class="teacher-cats" id="teacherCats" aria-label="교사용 주제 선택"></nav><div class="teacher-grid" id="teacherGrid"></div></section>
   <footer><span>마커를 눌러 우리 동네의 도움 장소를 탐구해 보세요!</span><b>위급할 땐 112 · 119</b></footer>
   <script>
     let data=[
@@ -139,6 +143,7 @@
     const cats=[["전체","✨"],["편리","🏛️"],["안전","🛡️"],["건강·의료","💊"],["교육·문화","📚"],["놀이·여가","🎈"],["생활편의","🛒"]];
     const initialCenter=[35.2056,129.0786],initialZoom=14,busanBounds=[[34.95,128.75],[35.40,129.32]];
     let cat="전체",subcat="전체",selected=data[0],visited=new Set(),leafletMap=null,leafletMarkers=[],naverMap=null,naverMarkers=[],mapEngine="";
+    let teacherCat="전체",teacherUnlocked=false;
     const $=id=>document.getElementById(id);
     function subtype(p){
       const n=p[0],raw=p[12]||"";
@@ -197,6 +202,15 @@
         return marker;
       });
     }
+    function escapeTeacher(value){return String(value??"").replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}
+    function renderTeacherPanel(){
+      $("teacherCats").innerHTML=cats.map(c=>`<button class="${teacherCat===c[0]?"on":""}" data-teacher-cat="${c[0]}">${c[1]} ${c[0]}</button>`).join("");
+      const places=teacherCat==="전체"?data:data.filter(p=>p[1]===teacherCat);
+      $("teacherGrid").innerHTML=places.map(p=>`<article class="teacher-place"><div class="teacher-photo">${p[11]?`<img src="${escapeTeacher(p[11])}" alt="${escapeTeacher(p[0])} 사진" loading="lazy" onerror="this.parentElement.textContent='공개 사진 준비 중'">`:"공개 사진 준비 중"}</div><div class="teacher-place-body"><span class="teacher-category">${escapeTeacher(p[1])}</span><h3>${escapeTeacher(p[0])}</h3><div class="teacher-kind">${escapeTeacher(subtype(p))}</div><p class="teacher-description">${escapeTeacher(p[5])}</p><p class="teacher-help"><b>어떤 도움을 줄까요?</b><br>${escapeTeacher(p[6])}</p><a class="teacher-source" href="${escapeTeacher(p[10])}" target="_blank" rel="noopener">공식 정보 보기 ↗</a></div></article>`).join("");
+      document.querySelectorAll("[data-teacher-cat]").forEach(b=>b.onclick=()=>{teacherCat=b.dataset.teacherCat;renderTeacherPanel()});
+    }
+    function openTeacherPanel(){$("teacherLogin").classList.remove("show");$("teacherLogin").setAttribute("aria-hidden","true");renderTeacherPanel();$("teacherPanel").classList.add("show");$("teacherPanel").setAttribute("aria-hidden","false");document.body.style.overflow="hidden"}
+    async function teacherPasswordHash(value){const bytes=new TextEncoder().encode(value),hash=await crypto.subtle.digest("SHA-256",bytes);return [...new Uint8Array(hash)].map(b=>b.toString(16).padStart(2,"0")).join("")}
     const placeTypes={
       police:["안전","👮","경찰서·파출소"],fire_station:["안전","🚒","소방서·안전센터"],townhall:["편리","🏛️","구청·행정복지센터"],
       hospital:["건강·의료","🏥","병원"],clinic:["건강·의료","🩺","의원"],pharmacy:["건강·의료","💊","약국"],centre:["건강·의료","❤️","보건·의료센터"],
@@ -322,6 +336,10 @@
       setTimeout(()=>{$("mapStatus").textContent="마커를 눌러 장소를 탐구해 보세요"},1800);
     };
     $("exploreJump").onclick=function(){$("placeCard").scrollIntoView({behavior:"smooth",block:"start"});$("exploreJump").classList.remove("show")};
+    $("teacherEntry").onclick=function(){if(teacherUnlocked){openTeacherPanel();return}$("teacherError").textContent="";$("teacherPassword").value="";$("teacherLogin").classList.add("show");$("teacherLogin").setAttribute("aria-hidden","false");setTimeout(()=>$("teacherPassword").focus(),50)};
+    $("teacherLoginCancel").onclick=function(){$("teacherLogin").classList.remove("show");$("teacherLogin").setAttribute("aria-hidden","true")};
+    $("teacherLoginForm").onsubmit=async function(event){event.preventDefault();const hash=await teacherPasswordHash($("teacherPassword").value);if(hash!=="b85bf0f7330be07933314afcfc04aa8e8bb33827eb03bdf2f65ff26fd32444f5"){$("teacherError").textContent="비밀번호가 맞지 않습니다.";$("teacherPassword").select();return}teacherUnlocked=true;openTeacherPanel()};
+    $("teacherClose").onclick=function(){$("teacherPanel").classList.remove("show");$("teacherPanel").setAttribute("aria-hidden","true");document.body.style.overflow=""};
     render();
     $("mapStatus").textContent="지도와 승인된 장소를 준비하고 있어요";
   </script>
