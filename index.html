@@ -51,20 +51,30 @@
       .map{height:430px;min-height:0}
       .explore-jump{position:fixed;z-index:1200;left:16px;right:16px;bottom:18px;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 16px;border:3px solid #fff;border-radius:18px;background:#6652c5;color:#fff;box-shadow:0 9px 28px #29204470;font-size:16px;font-weight:900;opacity:0;visibility:hidden;transform:translateY(18px);transition:opacity .2s,transform .2s,visibility .2s}.explore-jump.show{opacity:1;visibility:visible;transform:translateY(0)}.explore-jump strong{max-width:65vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.explore-jump .down{font-size:23px;animation:jumpDown .8s ease-in-out infinite alternate}@keyframes jumpDown{to{transform:translateY(4px)}}
     }
+    @media(max-width:600px){
+      .header-shell{grid-template-columns:72px minmax(0,1fr);grid-template-rows:72px 52px}
+      .header-shell>.brand-icon{width:64px;height:64px;border-radius:15px}
+      .header-shell>.top{position:relative;padding:2px 0 4px 8px}
+      .header-title{width:100%;transform:none}
+      .header-title small{padding-right:56px;font-size:13px;line-height:1.25;letter-spacing:-.02em}
+      .header-title h1{margin-top:7px;font-size:21px;line-height:1.08;letter-spacing:-.055em}
+      .title-row{display:block}
+      .title-reset{position:absolute;right:0;top:0;z-index:2;display:block;flex:none;width:52px;padding:7px 3px}
+      .title-reset:before{content:"↩ 처음";font-size:11px}
+    }
     @media(max-width:420px){
-      .header-shell{grid-template-columns:78px minmax(0,1fr)}
-      .header-shell>.brand-icon{width:70px;height:70px;border-radius:17px}
+      .header-shell{grid-template-columns:72px minmax(0,1fr)}
+      .header-shell>.brand-icon{width:64px;height:64px;border-radius:15px}
       .header-shell>.top{padding-left:6px}
-      .header-title small{font-size:11px}
-      .header-title h1{font-size:clamp(16px,5vw,19px)}
-      .title-row{gap:4px}
+      .header-title small{font-size:13px}
+      .header-title h1{font-size:21px}
       .title-reset{flex-basis:52px;width:52px;padding-inline:3px}
       .title-reset:before{font-size:11px}
     }
     @media(max-width:340px){
       .header-shell>.top{padding-left:4px}
-      .header-title h1{font-size:15px}
-      .title-row{gap:3px}
+      .header-title small{font-size:12px}
+      .header-title h1{font-size:20px}
       .title-reset{flex-basis:48px;width:48px;padding-inline:2px}
       .title-reset:before{font-size:10px}
     }
