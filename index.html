@@ -129,6 +129,13 @@
       ["코스트코 부산점","생활편의",35.1785,129.1153,"🛒","회원제로 이용하는 창고형 대형마트예요.","식품과 생활용품 등 여러 물건을 큰 규모의 매장에서 살 수 있도록 도와줘요.","","","창고형 대형마트는 일반 마트와 어떤 점이 다를까요?","https://www.costco.co.kr/store-finder/Busan","","생활용품 구입"],
       ["롯데백화점 동래점","생활편의",35.211061,129.0772045,"🏬","여러 종류의 상품과 서비스를 한 건물에서 이용할 수 있는 백화점이에요.","옷과 식품, 생활용품을 살 수 있고 문화·편의 서비스도 함께 이용하도록 도와줘요.","","","백화점에는 물건을 사는 곳 외에 어떤 편의시설이 있을까요?","https://www.lotteshopping.com/store/main?cstrCd=0016","","백화점"]
     ];
+    if(!data.some(p=>p[0]==="우장춘기념관"))data.push([
+      "우장춘기념관","교육·문화",35.21344,129.07205,"🌱",
+      "우리나라 농업과 종자 연구에 힘쓴 과학자 우장춘 박사의 삶과 연구를 소개하는 기념관이에요.",
+      "전시 자료를 보며 식물과 종자 연구가 우리 생활과 농업 발전에 어떤 도움을 주었는지 배우도록 도와줘요.",
+      "","","우장춘 박사의 연구는 우리가 먹는 채소와 농업에 어떤 도움을 주었을까요?",
+      "https://www.busan.go.kr/depart/ablandscape02/331041","","박물관"
+    ]);
     const transitDefaults=[
       ["도시철도 온천장역",35.2204,129.0862],["도시철도 명륜역",35.2124,129.0796],
       ["도시철도 동래역",35.2055,129.0786],["도시철도 교대역",35.1959,129.0803],
@@ -226,7 +233,12 @@
       $("list").innerHTML=f.map(p=>`<button class="${selected===p?"on":""}" data-place="${p[0]}">${visited.has(p[0])?"✓":p[4]} ${p[0]}</button>`).join("");
       $("icon").textContent=selected[4];$("category").textContent=selected[1];$("category").setAttribute("style",categoryVars(selected[1]));$("title").textContent=selected[0];$("desc").textContent=selected[5];$("help").textContent=selected[6];$("question").textContent=selected[9];$("source").href=selected[10];showPlacePhoto(selected);
       document.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>{cat=b.dataset.cat;subcat="전체";selected=(cat==="전체"?data:data.filter(p=>p[1]===cat))[0]||data[0];render()});
-      document.querySelectorAll("[data-subcat]").forEach(b=>b.onclick=()=>{subcat=b.dataset.subcat;selected=filtered()[0]||selected;render()});
+      document.querySelectorAll("[data-subcat]").forEach(b=>b.onclick=()=>{
+        subcat=b.dataset.subcat;
+        const preferred=subcat==="학교"?data.find(p=>p[0]==="온천초등학교"):null;
+        selected=(preferred&&filtered().includes(preferred)?preferred:filtered()[0])||selected;
+        render();
+      });
       document.querySelectorAll("[data-place]").forEach(b=>b.onclick=()=>select(data.find(p=>p[0]===b.dataset.place)));
       renderMapMarkers();
     }
