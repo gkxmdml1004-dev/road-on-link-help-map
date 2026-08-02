@@ -122,7 +122,12 @@
       ["복천박물관","교육·문화",35.2087,129.0914,"🏛️","복천동 고분군에서 발견된 유물과 가야 문화를 살펴보는 공공 박물관이에요.","실제 유물과 전시를 보며 우리 지역의 역사와 옛사람들의 생활을 배우도록 도와줘요.","","","박물관의 유물은 우리 지역의 옛 모습을 어떻게 알려 줄까요?","https://museum.busan.go.kr/bokcheon/","","박물관"],
       ["부산해양자연사박물관","교육·문화",35.2216,129.0765,"🐋","바다 생물과 자연환경을 전시하는 공공 박물관이에요.","다양한 해양 생물 자료를 보며 바다와 자연을 이해하도록 도와줘요.","","","바다 생물을 보호하려면 우리가 무엇을 할 수 있을까요?","https://www.busan.go.kr/sea/","","박물관"],
       ["동래읍성역사관","교육·문화",35.2103,129.0910,"🏯","동래읍성과 동래 지역의 역사를 소개하는 공공 전시관이에요.","지도와 유물, 설명 자료를 통해 우리 지역의 역사와 문화를 배우도록 도와줘요.","","","동래읍성은 우리 지역의 어떤 이야기를 전해 줄까요?","https://www.dongnae.go.kr/tour/","","박물관"],
-      ["충렬사","교육·문화",35.1994,129.0976,"🏛️","임진왜란 때 나라와 지역을 지킨 분들을 기리는 역사 문화유산이에요.","우리 지역의 역사와 선조들의 마음을 배우도록 도와줘요.","","","충렬사에서 우리가 기억해야 할 역사는 무엇일까요?","https://www.dongnae.go.kr/index.dongnae?menuCd=DOM_000000401003012003","https://www.dongnae.go.kr/images/tour/contents/sub01/img_1_3_9.jpg","문화유산"]
+      ["충렬사","교육·문화",35.1994,129.0976,"🏛️","임진왜란 때 나라와 지역을 지킨 분들을 기리는 역사 문화유산이에요.","우리 지역의 역사와 선조들의 마음을 배우도록 도와줘요.","","","충렬사에서 우리가 기억해야 할 역사는 무엇일까요?","https://www.dongnae.go.kr/index.dongnae?menuCd=DOM_000000401003012003","https://www.dongnae.go.kr/images/tour/contents/sub01/img_1_3_9.jpg","문화유산"],
+      ["다이소 동래수안점","생활편의",35.2013956,129.086865,"🧺","학용품과 여러 생활용품을 한곳에서 살 수 있는 생활용품점이에요.","공부하거나 생활할 때 자주 필요한 물건을 편리하게 고를 수 있도록 도와줘요.","","","다이소에서 학교생활에 필요한 물건은 무엇을 찾을 수 있을까요?","https://www.daiso.co.kr/cs/shop","","생활용품 구입"],
+      ["이마트 연제점","생활편의",35.1761281,129.0813107,"🛒","식품과 생활용품을 한곳에서 살 수 있는 대형마트예요.","가족의 식사와 생활에 필요한 여러 물건을 한 번에 준비할 수 있도록 도와줘요.","","","대형마트는 작은 가게와 어떤 점이 다를까요?","https://store.emart.com/","","생활용품 구입"],
+      ["트레이더스 홀세일클럽 연산점","생활편의",35.18509414,129.1119518,"🛒","여러 물건을 큰 묶음으로도 살 수 있는 창고형 대형마트예요.","많은 양의 식품과 생활용품이 필요할 때 한곳에서 비교하고 살 수 있도록 도와줘요.","","","큰 묶음으로 물건을 사면 어떤 점이 편리하고 무엇을 생각해야 할까요?","https://store.traders.co.kr/","","생활용품 구입"],
+      ["코스트코 부산점","생활편의",35.1785,129.1153,"🛒","회원제로 이용하는 창고형 대형마트예요.","식품과 생활용품 등 여러 물건을 큰 규모의 매장에서 살 수 있도록 도와줘요.","","","창고형 대형마트는 일반 마트와 어떤 점이 다를까요?","https://www.costco.co.kr/store-finder/Busan","","생활용품 구입"],
+      ["롯데백화점 동래점","생활편의",35.211061,129.0772045,"🏬","여러 종류의 상품과 서비스를 한 건물에서 이용할 수 있는 백화점이에요.","옷과 식품, 생활용품을 살 수 있고 문화·편의 서비스도 함께 이용하도록 도와줘요.","","","백화점에는 물건을 사는 곳 외에 어떤 편의시설이 있을까요?","https://www.lotteshopping.com/store/main?cstrCd=0016","","백화점"]
     ];
     const schoolDefaults=[
       ["금강초등학교",35.2028339,129.0645146],["교동초등학교",35.2154562,129.0917494],
@@ -166,11 +171,12 @@
       if(/보건소/.test(n))return"보건소";if(/병원/.test(n))return"종합병원";
       if(/학교|유치원/.test(n))return"학교";if(/도서관/.test(n))return"도서관";if(/박물관/.test(n))return"박물관";if(/미술관/.test(n))return"미술관";if(/충렬사|문화유산/.test(n))return"문화유산";
       if(/공원|온천천/.test(n))return"공원";if(/극장|영화관/.test(n))return"극장·영화관";if(/체육|운동장|야구장/.test(n))return"체육시설";if(/문화회관/.test(n))return"문화회관";
-      if(/다이소/.test(n))return"다이소";if(/백화점/.test(n))return"백화점";if(/마트/.test(n))return"대형마트";if(/시장/.test(n))return"시장";if(/우체국/.test(n))return"우체국";
+      if(/다이소|마트|트레이더스|코스트코/.test(n))return"생활용품 구입";if(/백화점/.test(n))return"백화점";if(/시장/.test(n))return"시장";if(/우체국/.test(n))return"우체국";
       if(/경찰|파출소|지구대/.test(raw))return"경찰";if(/소방|안전센터|119/.test(raw))return"소방";
       if(/시청|구청/.test(raw))return"시청·구청";if(/행정복지|주민센터/.test(raw))return"행정복지센터";
       if(/^(극장|영화관|극장·영화관)$/.test(raw))return"극장·영화관";
       if(/학교|유치원/.test(raw))return"학교";
+      if(/다이소|생활용품|대형마트|슈퍼마켓/.test(raw))return"생활용품 구입";
       return raw||"기타";
     }
     function filtered(){
@@ -292,7 +298,7 @@
           return [name,info[0],lat,lng,info[1],`${info[2]}이에요.`,helpTexts[type]||"사람들이 생활하고 배우고 쉬는 데 필요한 도움을 주는 곳이에요.","","",`이 장소가 없다면 우리 생활에서 어떤 점이 불편할까요?`,"https://www.openstreetmap.org/?mlat="+lat+"&mlon="+lng+"#map=17/"+lat+"/"+lng,photo,info[2]];
         }).filter(Boolean);
         const merged=[...data,...found],seen=new Set();
-        data=merged.filter(p=>{const key=p[0]+"|"+p[2].toFixed(4)+"|"+p[3].toFixed(4);if(seen.has(key))return false;seen.add(key);return true});
+        data=merged.filter(p=>{const key=p[0];if(seen.has(key))return false;seen.add(key);return true});
         selected=filtered()[0]||data[0];render();$("mapStatus").textContent=`동래구 도움 장소 ${data.length}곳을 표시했어요`;
       }catch(error){
         $("mapStatus").textContent="기본 장소를 표시했어요 · 잠시 후 새로고침하면 전체 장소를 불러와요";
