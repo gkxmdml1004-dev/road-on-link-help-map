@@ -95,7 +95,7 @@
   <section class="video"><b>▶ 함께 보고 알아봐요</b><a href="https://www.youtube.com/results?search_query=우리+동네+공공기관+초등" target="_blank">🎬 도움 장소 알아보기</a><a href="https://www.youtube.com/results?search_query=경찰서+소방서+하는+일+어린이" target="_blank">🚒 경찰서·소방서가 하는 일</a><span>🌱 새 영상 준비 중</span></section>
   <main class="workspace">
     <section class="map" id="mapShell" aria-label="동래구 도움 장소 지도"><div id="naverMap" class="naver-map"></div><div class="river"></div><div class="district">부산 동래구</div><div class="notice"><b>🗺️ 도움을 주는 장소 지도</b><small id="mapStatus">지도를 불러오는 중이에요</small></div><div class="map-toast" id="mapToast" role="alert" aria-live="assertive">📍 부산에서 벗어났습니다.<small>원래 지역으로 돌아갑니다.</small></div><div id="markers"></div><div class="count" id="count"></div></section>
-    <article class="card" id="placeCard"><div class="card-top"><div class="icon" id="icon"></div><div><span class="category" id="category"></span><h2 id="title"></h2><p class="desc" id="desc"></p></div></div><div class="place-photo"><img id="placePhoto" alt=""><span id="photoStatus">장소 사진을 찾고 있어요</span></div><div class="help"><b>💡 이곳은 어떤 도움을 줄까요?</b><p id="help"></p></div><div class="question"><b>생각 톡톡!</b><p id="question"></p></div><section class="experience" id="experience"><p class="experience-title"><small>🧭 나의 장소 경험</small>이 장소에서 나와 가장 가까운 경험은 무엇인가요?</p><div class="experience-options" id="experienceOptions"></div><p class="experience-followup" id="experienceFollowup"></p></section><div class="actions"><a id="source" target="_blank">장소 정보 보기 ↗</a><span>사진은 공개 자료를 사용해요</span></div><div class="place-list" id="list"></div></article>
+    <article class="card" id="placeCard"><div class="card-top"><div class="icon" id="icon"></div><div><span class="category" id="category"></span><h2 id="title"></h2><p class="desc" id="desc"></p></div></div><div class="place-photo" id="photoPanel"><img id="placePhoto" alt=""><span id="photoStatus"></span></div><div class="help"><b>💡 이곳은 어떤 도움을 줄까요?</b><p id="help"></p></div><div class="question"><b>생각 톡톡!</b><p id="question"></p></div><section class="experience" id="experience"><p class="experience-title"><small>🧭 나의 장소 경험</small>이 장소에서 나와 가장 가까운 경험은 무엇인가요?</p><div class="experience-options" id="experienceOptions"></div><p class="experience-followup" id="experienceFollowup"></p></section><div class="actions"><a id="source" target="_blank">장소 정보 보기 ↗</a><span>공식 정보를 확인해요</span></div><div class="place-list" id="list"></div></article>
   </main>
   <button class="explore-jump" id="exploreJump" type="button"><span class="down">↓</span><strong id="exploreJumpText">선택한 장소 탐구하기</strong></button>
   <button class="teacher-entry" id="teacherEntry" type="button" aria-label="교사용 자료 열기"><span>👩‍🏫</span>교사용</button>
@@ -359,7 +359,7 @@
     function renderTeacherPanel(){
       $("teacherCats").innerHTML=cats.map(c=>`<button class="${teacherCat===c[0]?"on":""}" data-teacher-cat="${c[0]}" style="${categoryVars(c[0])}">${c[1]} ${c[0]}</button>`).join("");
       const places=teacherCat==="전체"?data:data.filter(p=>p[1]===teacherCat);
-      $("teacherGrid").innerHTML=places.map(p=>`<article class="teacher-place" style="${categoryVars(p[1])}"><div class="teacher-photo">${p[11]?`<img src="${escapeTeacher(p[11])}" alt="${escapeTeacher(p[0])} 사진" loading="lazy" onerror="this.parentElement.textContent='공개 사진 준비 중'">`:"공개 사진 준비 중"}</div><div class="teacher-place-body"><span class="teacher-category">${escapeTeacher(p[1])}</span><h3>${escapeTeacher(p[0])}</h3><div class="teacher-kind">${escapeTeacher(subtype(p))}</div><p class="teacher-description">${escapeTeacher(p[5])}</p><p class="teacher-help"><b>어떤 도움을 줄까요?</b><br>${escapeTeacher(p[6])}</p><a class="teacher-source" href="${escapeTeacher(p[10])}" target="_blank" rel="noopener">공식 정보 보기 ↗</a></div></article>`).join("");
+      $("teacherGrid").innerHTML=places.map(p=>`<article class="teacher-place" style="${categoryVars(p[1])}">${p[11]?`<div class="teacher-photo"><img src="${escapeTeacher(p[11])}" alt="${escapeTeacher(p[0])} 사진" loading="lazy" onerror="this.parentElement.remove()"></div>`:""}<div class="teacher-place-body"><span class="teacher-category">${escapeTeacher(p[1])}</span><h3>${escapeTeacher(p[0])}</h3><div class="teacher-kind">${escapeTeacher(subtype(p))}</div><p class="teacher-description">${escapeTeacher(p[5])}</p><p class="teacher-help"><b>어떤 도움을 줄까요?</b><br>${escapeTeacher(p[6])}</p><a class="teacher-source" href="${escapeTeacher(p[10])}" target="_blank" rel="noopener">공식 정보 보기 ↗</a></div></article>`).join("");
       document.querySelectorAll("[data-teacher-cat]").forEach(b=>b.onclick=()=>{teacherCat=b.dataset.teacherCat;renderTeacherPanel()});
     }
     function openTeacherPanel(){$("teacherLogin").classList.remove("show");$("teacherLogin").setAttribute("aria-hidden","true");renderTeacherPanel();$("teacherPanel").classList.add("show");$("teacherPanel").setAttribute("aria-hidden","false");document.body.style.overflow="hidden"}
@@ -395,16 +395,14 @@
       post_office:"편지와 소포를 보내고 받을 수 있게 해주며 여러 우편 업무를 도와줘요."
     };
     let photoRequest=0;
-    async function showPlacePhoto(p){
-      const request=++photoRequest,img=$("placePhoto"),status=$("photoStatus");
-      img.style.display="none";status.style.display="block";status.textContent="장소 사진을 찾고 있어요";
-      const display=url=>{if(request!==photoRequest||!url)return;img.onload=()=>{if(request===photoRequest){img.style.display="block";status.style.display="none"}};img.onerror=()=>{img.style.display="none";status.style.display="block";status.textContent="이 장소의 공개 사진을 준비 중이에요"};img.src=url;img.alt=p[0]+" 사진"};
-      if(p[11]){display(p[11]);return}
-      try{
-        const api="https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrlimit=1&gsrsearch="+encodeURIComponent(p[0]+" 부산")+"&prop=imageinfo&iiprop=url&format=json&origin=*";
-        const json=await (await fetch(api)).json(),page=Object.values(json.query?.pages||{})[0];
-        if(page?.imageinfo?.[0]?.url)display(page.imageinfo[0].url);else throw new Error();
-      }catch(error){if(request===photoRequest){status.textContent="이 장소의 공개 사진을 준비 중이에요"}}
+    function showPlacePhoto(p){
+      const request=++photoRequest,panel=$("photoPanel"),img=$("placePhoto"),status=$("photoStatus");
+      img.onload=null;img.onerror=null;img.removeAttribute("src");img.style.display="none";status.style.display="none";
+      if(!p[11]){panel.style.display="none";return}
+      panel.style.display="grid";
+      img.onload=()=>{if(request===photoRequest)img.style.display="block"};
+      img.onerror=()=>{if(request===photoRequest){img.style.display="none";panel.style.display="none"}};
+      img.src=p[11];img.alt=p[0]+" 사진";
     }
     async function loadAllPlaces(){
       const q='[out:json][timeout:60];area(3604110492)->.a;(nwr(area.a)["amenity"~"^(police|fire_station|townhall|hospital|clinic|pharmacy|school|college|university|library|museum|arts_centre|theatre|cinema|post_office|marketplace)$"];nwr(area.a)["tourism"~"^(museum|gallery|attraction|theme_park|zoo|aquarium)$"];nwr(area.a)["healthcare"~"^(hospital|clinic|pharmacy|centre)$"];nwr(area.a)["leisure"~"^(park|playground|sports_centre|stadium|amusement_arcade|escape_game|water_park)$"];nwr(area.a)["shop"~"^(supermarket|mall|department_store|variety_store)$"];nwr(area.a)["office"="government"]["name"~"(행정복지센터|주민센터|구청|시청)$"];nwr(area.a)["name"~"(파출소|지구대|병원|박물관|미술관|학교|도서관|문화회관|체험관|극장|영화관|다이소|백화점|마트)$"];);out center tags;';
