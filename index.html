@@ -187,18 +187,21 @@
     const cats=[["전체","✨"],["편리","🏛️"],["안전","🛡️"],["건강·의료","💊"],["교육·문화","📚"],["놀이·여가","🎈"],["생활편의","🛒"]];
     const categoryColors={"전체":["#6b55cc","#f0edff","#4c3b9d"],"편리":["#3b8fbd","#e7f5fc","#195a85"],"안전":["#d95a65","#ffedef","#91333c"],"건강·의료":["#c99a20","#fff7d7","#755611"],"교육·문화":["#61a866","#edf8ed","#2f6435"],"놀이·여가":["#8b72c7","#f1edff","#57418f"],"생활편의":["#dd7832","#fff0e6","#8d4816"]};
     function categoryVars(name){const c=categoryColors[name]||categoryColors["전체"];return`--cat:${c[0]};--cat-soft:${c[1]};--cat-ink:${c[2]}`}
-    const initialCenter=[35.2056,129.0786],initialZoom=14,busanBounds=[[34.95,128.75],[35.40,129.32]];
+    // 온천초등학교를 중심으로 우리 지역의 주요 장소를 살펴봅니다.
+    const initialCenter=[35.2122985,129.0738539],initialZoom=14,busanBounds=[[34.95,128.75],[35.40,129.32]];
     let cat="전체",subcat="전체",selected=data[0],visited=new Set(),leafletMap=null,leafletMarkers=[],naverMap=null,naverMarkers=[],mapEngine="";
     let teacherCat="전체",teacherUnlocked=false;
     const $=id=>document.getElementById(id);
     function subtype(p){
       const n=p[0],raw=p[12]||"";
+      // 역 이름에 문화유산 이름이 포함되어도 교통 시설로 먼저 분류합니다.
+      if(/도시철도.*역$|역$/.test(n))return"교통";
       if(/시청|구청/.test(n))return"시청·구청";if(/행정복지센터|주민센터/.test(n))return"행정복지센터";
       if(/경찰서|파출소|지구대/.test(n))return"경찰";if(/소방|119/.test(n))return"소방";
       if(/보건소/.test(n))return"보건소";if(/병원/.test(n))return"종합병원";
       if(/학교|유치원/.test(n))return"학교";if(/도서관/.test(n))return"도서관";if(/박물관/.test(n))return"박물관";if(/미술관/.test(n))return"미술관";if(/충렬사|문화유산/.test(n))return"문화유산";
       if(/공원|온천천/.test(n))return"공원";if(/극장|영화관/.test(n))return"극장·영화관";if(/체육|운동장|야구장/.test(n))return"체육시설";if(/문화회관/.test(n))return"문화회관";
-      if(/도시철도.*역$|역$/.test(n))return"교통";if(/다이소|마트|트레이더스|코스트코/.test(n))return"생활용품 구입";if(/백화점/.test(n))return"백화점";if(/시장/.test(n))return"시장";if(/우체국/.test(n))return"우체국";
+      if(/다이소|마트|트레이더스|코스트코/.test(n))return"생활용품 구입";if(/백화점/.test(n))return"백화점";if(/시장/.test(n))return"시장";if(/우체국/.test(n))return"우체국";
       if(/경찰|파출소|지구대/.test(raw))return"경찰";if(/소방|안전센터|119/.test(raw))return"소방";
       if(/시청|구청/.test(raw))return"시청·구청";if(/행정복지|주민센터/.test(raw))return"행정복지센터";
       if(/^(극장|영화관|극장·영화관)$/.test(raw))return"극장·영화관";
