@@ -153,7 +153,7 @@
     const majorHospitalNames=new Set(["동래구보건소","대동병원","광혜병원","동래봉생병원"]);
     data=data.filter(p=>p[1]!=="건강·의료"||majorHospitalNames.has(p[0]));
     const cats=[["전체","✨"],["편리","🏛️"],["안전","🛡️"],["건강·의료","💊"],["교육·문화","📚"],["놀이·여가","🎈"],["생활편의","🛒"]];
-    const categoryColors={"전체":["#6b55cc","#f0edff","#4c3b9d"],"편리":["#3979c7","#e9f3ff","#24558f"],"안전":["#d95b68","#ffedf0","#9c3440"],"건강·의료":["#d94f78","#ffedf4","#92264d"],"교육·문화":["#785ec9","#f0ebff","#503a98"],"놀이·여가":["#e58432","#fff1e3","#9a5118"],"생활편의":["#4d9b57","#eaf7eb","#2e6d36"]};
+    const categoryColors={"전체":["#6b55cc","#f0edff","#4c3b9d"],"편리":["#3b8fbd","#e7f5fc","#195a85"],"안전":["#d95a65","#ffedef","#91333c"],"건강·의료":["#c99a20","#fff7d7","#755611"],"교육·문화":["#61a866","#edf8ed","#2f6435"],"놀이·여가":["#8b72c7","#f1edff","#57418f"],"생활편의":["#dd7832","#fff0e6","#8d4816"]};
     function categoryVars(name){const c=categoryColors[name]||categoryColors["전체"];return`--cat:${c[0]};--cat-soft:${c[1]};--cat-ink:${c[2]}`}
     const initialCenter=[35.2056,129.0786],initialZoom=14,busanBounds=[[34.95,128.75],[35.40,129.32]];
     let cat="전체",subcat="전체",selected=data[0],visited=new Set(),leafletMap=null,leafletMarkers=[],naverMap=null,naverMarkers=[],mapEngine="";
