@@ -170,6 +170,28 @@
         "https://www.bspolice.go.kr/view.do?no=61","","경찰"
       ]);
     });
+    const nearbyBankDefaults=[
+      ["NH농협은행 온천동지점",35.2094272,129.0708055,"https://banking.nonghyup.com/"],
+      ["BNK부산은행 온천동지점",35.2184325,129.0827266,"https://www.busanbank.co.kr/"],
+      ["우리은행 온천동금융센터",35.21855,129.08305,"https://www.wooribank.com/"],
+      ["KB국민은행 동부산종합금융센터",35.22095,129.08555,"https://www.kbstar.com/"]
+    ];
+    nearbyBankDefaults.forEach(([name,lat,lng,sourceUrl])=>{
+      if(!data.some(p=>p[0]===name))data.push([
+        name,"생활편의",lat,lng,"🏦",
+        "돈을 안전하게 맡기고 찾으며 필요한 금융 업무를 처리할 수 있는 은행 지점이에요.",
+        "통장을 만들거나 돈을 보내고 저축하는 등 생활에 필요한 금융 업무를 도와줘요.",
+        "","","은행은 우리 생활에서 돈을 안전하고 편리하게 관리하도록 어떻게 도와줄까요?",
+        sourceUrl,"","금융"
+      ]);
+    });
+    if(!data.some(p=>p[0]==="부산119안전체험관"))data.push([
+      "부산119안전체험관","교육·문화",35.2179289,129.0742590,"🧯",
+      "화재와 지진 같은 재난 상황에서 안전하게 행동하는 방법을 직접 체험하며 배우는 곳이에요.",
+      "소화기 사용, 대피, 응급처치처럼 위험한 순간에 나와 다른 사람을 지키는 방법을 연습할 수 있어요.",
+      "","","안전 체험을 미리 해 보면 실제 위험한 상황에서 어떤 도움이 될까요?",
+      "https://119.busan.go.kr/firesafe/main","","체험관"
+    ]);
     const transitDefaults=[
       ["도시철도 온천장역",35.2204,129.0862],["도시철도 명륜역",35.2124,129.0796],
       ["도시철도 동래역",35.2055,129.0786],["도시철도 교대역",35.1959,129.0803],
@@ -237,6 +259,8 @@
       const n=p[0],raw=p[12]||"";
       // 역 이름에 문화유산 이름이 포함되어도 교통 시설로 먼저 분류합니다.
       if(/도시철도.*역$|역$/.test(n))return"교통";
+      if(n==="부산119안전체험관")return"체험관";
+      if(/은행|금융센터/.test(n)||/금융/.test(raw))return"금융";
       if(/시청|구청/.test(n))return"시청·구청";if(/행정복지센터|주민센터/.test(n))return"행정복지센터";
       if(/경찰서|파출소|지구대|치안센터/.test(n))return"경찰";if(/소방|119/.test(n))return"소방";
       if(/보건소/.test(n))return"보건소";if(/병원/.test(n))return"종합병원";
@@ -266,15 +290,26 @@
       $("markers").innerHTML=f.map((p,i)=>{const left=Math.min(88,Math.max(9,12+((p[3]-129.05)/.055)*72)),top=20+(i%4)*18;return`<button class="marker ${selected===p?"active":""}" data-place="${p[0]}" style="left:${left}%;top:${top}%;${categoryVars(p[1])}"><span class="marker-text"><em>${p[1]}</em><b>${p[0]}</b></span></button>`}).join("");
       $("list").innerHTML=f.map(p=>`<button class="${selected===p?"on":""}" data-place="${p[0]}">${visited.has(p[0])?"✓":p[4]} ${p[0]}</button>`).join("");
       $("icon").textContent=selected[4];$("category").textContent=selected[1];$("category").setAttribute("style",categoryVars(selected[1]));$("title").textContent=selected[0];$("desc").textContent=selected[5];$("help").textContent=selected[6];$("question").textContent=selected[9];$("source").href=selected[10];showPlacePhoto(selected);
-      document.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>{cat=b.dataset.cat;subcat="전체";selected=(cat==="전체"?data:data.filter(p=>p[1]===cat))[0]||data[0];render()});
+      document.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>{cat=b.dataset.cat;subcat="전체";selected=(cat==="전체"?data:data.filter(p=>p[1]===cat))[0]||data[0];render();focusFilteredPlaces()});
       document.querySelectorAll("[data-subcat]").forEach(b=>b.onclick=()=>{
         subcat=b.dataset.subcat;
         const preferred=subcat==="학교"?data.find(p=>p[0]==="온천초등학교"):null;
         selected=(preferred&&filtered().includes(preferred)?preferred:filtered()[0])||selected;
-        render();
+        render();focusFilteredPlaces();
       });
       document.querySelectorAll("[data-place]").forEach(b=>b.onclick=()=>select(data.find(p=>p[0]===b.dataset.place)));
       renderMapMarkers();
+    }
+    function focusFilteredPlaces(){
+      const places=filtered();
+      if(cat==="전체"||!places.length)return;
+      if(naverMap&&window.naver?.maps){
+        const bounds=new naver.maps.LatLngBounds();
+        places.forEach(p=>bounds.extend(new naver.maps.LatLng(p[2],p[3])));
+        naverMap.fitBounds(bounds,{top:80,right:180,bottom:80,left:80});
+      }else if(leafletMap&&window.L){
+        leafletMap.fitBounds(places.map(p=>[p[2],p[3]]),{padding:[55,55],maxZoom:15});
+      }
     }
     function renderMapMarkers(){
       if(naverMap&&window.naver?.maps){
