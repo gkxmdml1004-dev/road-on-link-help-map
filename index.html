@@ -154,6 +154,22 @@
         sourceUrl,"","행정복지센터"
       ]);
     });
+    const nearbyPoliceDefaults=[
+      ["내성지구대",35.2129985,129.0777123],
+      ["사직1치안센터",35.2075659,129.0694347],
+      ["온천지구대",35.2184131,129.0834511],
+      ["온천2치안센터",35.2224,129.0811],
+      ["사직지구대",35.2004267,129.0737113]
+    ];
+    nearbyPoliceDefaults.forEach(([name,lat,lng])=>{
+      if(!data.some(p=>p[0]===name))data.push([
+        name,"안전",lat,lng,"🚓",
+        "우리 동네를 순찰하며 위험한 상황을 예방하고 주민들의 안전을 지키는 가까운 경찰관서예요.",
+        "위험한 상황에서 사람들을 지키고, 길을 잃거나 도움이 필요할 때 안전하게 도와줘요.",
+        "","","우리 동네 가까이에 지구대나 치안센터가 있으면 어떤 점이 안심될까요?",
+        "https://www.bspolice.go.kr/view.do?no=61","","경찰"
+      ]);
+    });
     const transitDefaults=[
       ["도시철도 온천장역",35.2204,129.0862],["도시철도 명륜역",35.2124,129.0796],
       ["도시철도 동래역",35.2055,129.0786],["도시철도 교대역",35.1959,129.0803],
@@ -222,12 +238,12 @@
       // 역 이름에 문화유산 이름이 포함되어도 교통 시설로 먼저 분류합니다.
       if(/도시철도.*역$|역$/.test(n))return"교통";
       if(/시청|구청/.test(n))return"시청·구청";if(/행정복지센터|주민센터/.test(n))return"행정복지센터";
-      if(/경찰서|파출소|지구대/.test(n))return"경찰";if(/소방|119/.test(n))return"소방";
+      if(/경찰서|파출소|지구대|치안센터/.test(n))return"경찰";if(/소방|119/.test(n))return"소방";
       if(/보건소/.test(n))return"보건소";if(/병원/.test(n))return"종합병원";
       if(/학교|유치원/.test(n))return"학교";if(/도서관/.test(n))return"도서관";if(/박물관/.test(n))return"박물관";if(/미술관/.test(n))return"미술관";if(/충렬사|문화유산/.test(n))return"문화유산";
       if(/공원|온천천/.test(n))return"공원";if(/극장|영화관/.test(n))return"극장·영화관";if(/체육|운동장|야구장/.test(n))return"체육시설";if(/문화회관/.test(n))return"문화회관";
       if(/다이소|마트|트레이더스|코스트코/.test(n))return"생활용품 구입";if(/백화점/.test(n))return"백화점";if(/시장/.test(n))return"시장";if(/우체국/.test(n))return"우체국";
-      if(/경찰|파출소|지구대/.test(raw))return"경찰";if(/소방|안전센터|119/.test(raw))return"소방";
+      if(/경찰|파출소|지구대|치안센터/.test(raw))return"경찰";if(/소방|안전센터|119/.test(raw))return"소방";
       if(/시청|구청/.test(raw))return"시청·구청";if(/행정복지|주민센터/.test(raw))return"행정복지센터";
       if(/^(극장|영화관|극장·영화관)$/.test(raw))return"극장·영화관";
       if(/학교|유치원/.test(raw))return"학교";
