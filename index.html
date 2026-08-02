@@ -78,6 +78,11 @@
       .title-reset{flex-basis:48px;width:48px;padding-inline:2px}
       .title-reset:before{font-size:10px}
     }
+    .experience{margin-top:13px;padding:15px;border:2px solid var(--cat,#6652c5);border-radius:18px;background:var(--cat-soft,#f4f1ff)}
+    .experience-title{margin:0;font-weight:900;line-height:1.45}.experience-title small{display:block;margin-bottom:3px;color:var(--cat-ink,#5947b0);font-size:12px}
+    .experience-options{display:grid;gap:8px;margin-top:11px}.experience-options button{width:100%;padding:11px 12px;border:1px solid #dcd5e8;border-radius:12px;background:#fff;color:#30364a;text-align:left;font-size:14px;font-weight:800;line-height:1.4;cursor:pointer}
+    .experience-options button.selected{border-color:var(--cat,#6652c5);background:var(--cat,#6652c5);color:#fff;box-shadow:0 4px 12px #29233d24}.experience-followup{display:none;margin:11px 0 0;padding:10px 12px;border-radius:11px;background:#fff;color:#40394e;font-weight:800;line-height:1.5}.experience-followup.show{display:block}
+    @media(max-width:600px){.experience-options button{font-size:13px}}
   </style>
 </head>
 <body>
@@ -90,7 +95,7 @@
   <section class="video"><b>▶ 함께 보고 알아봐요</b><a href="https://www.youtube.com/results?search_query=우리+동네+공공기관+초등" target="_blank">🎬 도움 장소 알아보기</a><a href="https://www.youtube.com/results?search_query=경찰서+소방서+하는+일+어린이" target="_blank">🚒 경찰서·소방서가 하는 일</a><span>🌱 새 영상 준비 중</span></section>
   <main class="workspace">
     <section class="map" id="mapShell" aria-label="동래구 도움 장소 지도"><div id="naverMap" class="naver-map"></div><div class="river"></div><div class="district">부산 동래구</div><div class="notice"><b>🗺️ 도움을 주는 장소 지도</b><small id="mapStatus">지도를 불러오는 중이에요</small></div><div class="map-toast" id="mapToast" role="alert" aria-live="assertive">📍 부산에서 벗어났습니다.<small>원래 지역으로 돌아갑니다.</small></div><div id="markers"></div><div class="count" id="count"></div></section>
-    <article class="card" id="placeCard"><div class="card-top"><div class="icon" id="icon"></div><div><span class="category" id="category"></span><h2 id="title"></h2><p class="desc" id="desc"></p></div></div><div class="place-photo"><img id="placePhoto" alt=""><span id="photoStatus">장소 사진을 찾고 있어요</span></div><div class="help"><b>💡 이곳은 어떤 도움을 줄까요?</b><p id="help"></p></div><div class="question"><b>생각 톡톡!</b><p id="question"></p></div><div class="actions"><a id="source" target="_blank">장소 정보 보기 ↗</a><span>사진은 공개 자료를 사용해요</span></div><div class="place-list" id="list"></div></article>
+    <article class="card" id="placeCard"><div class="card-top"><div class="icon" id="icon"></div><div><span class="category" id="category"></span><h2 id="title"></h2><p class="desc" id="desc"></p></div></div><div class="place-photo"><img id="placePhoto" alt=""><span id="photoStatus">장소 사진을 찾고 있어요</span></div><div class="help"><b>💡 이곳은 어떤 도움을 줄까요?</b><p id="help"></p></div><div class="question"><b>생각 톡톡!</b><p id="question"></p></div><section class="experience" id="experience"><p class="experience-title"><small>🧭 나의 장소 경험</small>이 장소에서 나와 가장 가까운 경험은 무엇인가요?</p><div class="experience-options" id="experienceOptions"></div><p class="experience-followup" id="experienceFollowup"></p></section><div class="actions"><a id="source" target="_blank">장소 정보 보기 ↗</a><span>사진은 공개 자료를 사용해요</span></div><div class="place-list" id="list"></div></article>
   </main>
   <button class="explore-jump" id="exploreJump" type="button"><span class="down">↓</span><strong id="exploreJumpText">선택한 장소 탐구하기</strong></button>
   <button class="teacher-entry" id="teacherEntry" type="button" aria-label="교사용 자료 열기"><span>👩‍🏫</span>교사용</button>
@@ -282,6 +287,21 @@
       return group.filter(p=>subtype(p)!=="학교");
     }
     function select(p){selected=p;visited.add(p[0]);$("progress").textContent=visited.size+" / "+data.length;render();if(leafletMap)leafletMap.panTo([p[2],p[3]]);if(naverMap)naverMap.panTo(new naver.maps.LatLng(p[2],p[3]));if(window.matchMedia("(max-width:760px)").matches){$("exploreJumpText").textContent=p[0]+" 탐구 카드 보기";$("exploreJump").classList.add("show")}}
+    const experienceChoices={
+      "편리":["가족과 함께 방문해 안내나 필요한 일을 처리해 보았어요.","건물이나 표지판을 지나가며 본 적이 있어요.","아직 이용한 적은 없지만 어떤 곳인지 알고 있어요."],
+      "안전":["안전교육을 받거나 경찰관·소방관의 도움을 접해 보았어요.","주변을 지나가며 이 장소를 본 적이 있어요.","아직 이용한 적은 없지만 위험할 때 떠올릴 수 있어요."],
+      "건강·의료":["진료·검사·예방접종을 받으러 방문해 보았어요.","가족이나 아는 사람과 함께 방문해 보았어요.","주변을 지나가며 보았지만 이용한 적은 없어요."],
+      "교육·문화":["수업·독서·전시·체험 활동을 하러 방문해 보았어요.","가족이나 친구와 함께 둘러본 기억이 있어요.","이름이나 위치는 알지만 아직 방문한 적은 없어요."],
+      "놀이·여가":["놀기·운동·공연이나 영화 관람을 하러 가 보았어요.","가족이나 친구와 즐거운 시간을 보낸 기억이 있어요.","주변을 지나가며 보았지만 아직 이용하지 않았어요."],
+      "생활편의":["물건을 사거나 교통·금융 서비스를 이용해 보았어요.","가족과 함께 방문하거나 이동하며 이용해 보았어요.","주변을 지나가며 보았지만 아직 이용하지 않았어요."]
+    };
+    function savedExperience(){try{return JSON.parse(localStorage.getItem("roadOnLinkPlaceExperiences")||"{}")||{}}catch{return{}}}
+    function renderExperience(p){
+      const box=$("experience"),options=$("experienceOptions"),followup=$("experienceFollowup"),choices=experienceChoices[p[1]]||experienceChoices["편리"],saved=savedExperience(),picked=saved[p[0]];
+      box.setAttribute("style",categoryVars(p[1]));options.innerHTML="";
+      choices.forEach((text,index)=>{const button=document.createElement("button");button.type="button";button.textContent=(index+1)+". "+text;if(picked===index)button.classList.add("selected");button.onclick=()=>{const next=savedExperience();next[p[0]]=index;localStorage.setItem("roadOnLinkPlaceExperiences",JSON.stringify(next));renderExperience(p)};options.appendChild(button)});
+      if(Number.isInteger(picked)){followup.textContent="그때 이 장소에서 어떤 느낌이 들었나요? 같은 장소라도 친구와 나의 느낌은 서로 다를 수 있어요.";followup.classList.add("show")}else{followup.textContent="";followup.classList.remove("show")}
+    }
     function render(){
       $("topics").innerHTML=cats.map(c=>`<button class="${cat===c[0]?"on":""}" data-cat="${c[0]}" style="${categoryVars(c[0])}">${c[1]} ${c[0]}</button>`).join("");
       const group=cat==="전체"?[]:data.filter(p=>p[1]===cat),subs=[...new Set(group.map(subtype))].sort((a,b)=>a.localeCompare(b,"ko"));
@@ -290,7 +310,7 @@
       const f=filtered(); $("count").textContent=`● 도움 장소 ${f.length}곳`;
       $("markers").innerHTML=f.map((p,i)=>{const left=Math.min(88,Math.max(9,12+((p[3]-129.05)/.055)*72)),top=20+(i%4)*18;return`<button class="marker ${selected===p?"active":""}" data-place="${p[0]}" style="left:${left}%;top:${top}%;${categoryVars(p[1])}"><span class="marker-text"><em>${p[1]}</em><b>${p[0]}</b></span></button>`}).join("");
       $("list").innerHTML=f.map(p=>`<button class="${selected===p?"on":""}" data-place="${p[0]}">${visited.has(p[0])?"✓":p[4]} ${p[0]}</button>`).join("");
-      $("icon").textContent=selected[4];$("category").textContent=selected[1];$("category").setAttribute("style",categoryVars(selected[1]));$("title").textContent=selected[0];$("desc").textContent=selected[5];$("help").textContent=selected[6];$("question").textContent=selected[9];$("source").href=selected[10];showPlacePhoto(selected);
+      $("icon").textContent=selected[4];$("category").textContent=selected[1];$("category").setAttribute("style",categoryVars(selected[1]));$("title").textContent=selected[0];$("desc").textContent=selected[5];$("help").textContent=selected[6];$("question").textContent=selected[9];$("source").href=selected[10];renderExperience(selected);showPlacePhoto(selected);
       document.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>{cat=b.dataset.cat;subcat="전체";selected=(cat==="전체"?data:data.filter(p=>p[1]===cat))[0]||data[0];render();focusFilteredPlaces()});
       document.querySelectorAll("[data-subcat]").forEach(b=>b.onclick=()=>{
         subcat=b.dataset.subcat;
