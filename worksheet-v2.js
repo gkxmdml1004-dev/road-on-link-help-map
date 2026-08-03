@@ -96,4 +96,6 @@
     if (!places.length) { showWordToast("먼저 장소를 탐구해 주세요."); return; }
     if ($("downloadFormat").value === "png") downloadPngFourUp(); else downloadHtmlFourUp();
   };
+  const worksheetDownloadButton = $("notebookDownload");
+  if (worksheetDownloadButton) worksheetDownloadButton.onclick = downloadWorksheet;
 })();
