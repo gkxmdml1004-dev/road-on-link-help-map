@@ -27,7 +27,7 @@
     .header-title h1{margin:6px 0 0;font-size:clamp(32px,3.25vw,46px);line-height:1.08;letter-spacing:-.035em;white-space:nowrap}
     .header-title small{display:block;margin:0;color:#725fbd;font-size:16px;font-weight:800;line-height:1.3;letter-spacing:.01em;white-space:nowrap}
     .title-reset{padding:9px 14px;font-size:14px;border-radius:13px}
-    .progress{font-size:14px;white-space:nowrap;align-self:center}
+    .top-actions{display:flex;align-items:center;gap:10px;white-space:nowrap}.progress{font-size:14px;white-space:nowrap;align-self:center}.restart-explore{border:2px solid #b7743c;border-radius:99px;padding:8px 13px;background:#fffaf3;color:#8a4e20;font-size:14px;font-weight:900;cursor:pointer}.restart-explore:hover{background:#fff1df}.restart-explore:active{transform:scale(.97)}
     .header-shell>.topics{grid-column:2;grid-row:2;padding:6px 0 5px 12px;background:transparent;align-self:stretch;align-items:center;gap:9px}
     .topics button{padding:10px 16px;font-size:15px}
     /* 화면 폭이나 필터 결과가 바뀌어도 지도와 카드가 밀려나지 않도록 고정 */
@@ -43,6 +43,7 @@
       .header-shell>.brand-icon{width:84px;height:84px;border-radius:19px;align-self:start}
       .header-shell>.top{padding:2px 0 5px 8px}
       .header-title h1{font-size:19px;letter-spacing:-.05em}
+      .top-actions{gap:5px}.progress{display:none}.restart-explore{padding:6px 9px;font-size:12px}
       .title-row{flex-wrap:nowrap;gap:6px}
       .title-reset{flex:0 0 60px;width:60px;padding:7px 5px;font-size:0;white-space:nowrap}
       .title-reset:before{content:"↩ 처음";font-size:12px}
@@ -58,6 +59,7 @@
       .header-title{width:100%;transform:none}
       .header-title small{padding-right:56px;font-size:13px;line-height:1.25;letter-spacing:-.02em}
       .header-title h1{margin-top:7px;font-size:21px;line-height:1.08;letter-spacing:-.055em}
+      .restart-explore{position:absolute;right:0;top:43px;padding:4px 7px;font-size:10px}
       .title-row{display:block}
       .title-reset{position:absolute;right:0;top:11px;z-index:2;display:block;flex:none;width:52px;padding:4px 3px}
       .title-reset:before{content:"↩ 처음";font-size:11px}
@@ -82,7 +84,7 @@
     .experience-title{margin:0;font-weight:900;line-height:1.45}.experience-title small{display:block;margin-bottom:3px;color:var(--cat-ink,#5947b0);font-size:12px}
     .experience-options{display:grid;gap:8px;margin-top:11px}.experience-options button{width:100%;padding:11px 12px;border:1px solid #dcd5e8;border-radius:12px;background:#fff;color:#30364a;text-align:left;font-size:14px;font-weight:800;line-height:1.4;cursor:pointer}
     .experience-options button.selected{border-color:var(--cat,#6652c5);background:var(--cat,#6652c5);color:#fff;box-shadow:0 4px 12px #29233d24}.experience-followup{display:none;margin:11px 0 0;padding:10px 12px;border-radius:11px;background:#fff;color:#40394e;font-weight:800;line-height:1.5}.experience-followup.show{display:block}
-    .keyword-tip{margin:10px 0 0;color:#655d71;font-size:12px;font-weight:800}.clue-board{display:grid;gap:9px;margin-top:12px}.clue-card{width:100%;padding:12px 13px;border:2px dashed var(--cat,#6652c5);border-radius:14px;background:var(--cat-soft,#f0edff);color:#30364a;line-height:1.65}.clue-card>strong{display:block;color:var(--cat-ink,#5947b0);font-size:12px}.clue-card>p{margin:6px 0 0;font-weight:800}.clue-card>small{display:block;margin-top:6px;color:#655f6c}.clue-token{display:inline;padding:1px 4px;border:0;border-radius:5px;background:#e5e7eb;color:#273148;box-shadow:inset 0 -2px 0 #c8cbd1;font:inherit;font-weight:900;line-height:inherit;cursor:pointer;-webkit-box-decoration-break:clone;box-decoration-break:clone}.clue-token:after{content:" +";font-size:.72em;color:#777d87}.clue-token.collected{background:#b9f47a;color:#183c20;box-shadow:inset 0 -2px 0 #75c94a}.clue-token.collected:after{content:" ✓";color:#247332}.clue-token:focus-visible{outline:3px solid var(--cat,#6652c5);outline-offset:2px}.word-toast{position:fixed;z-index:2600;left:50%;bottom:95px;padding:11px 18px;border-radius:99px;background:#293148;color:#fff;font-weight:900;box-shadow:0 8px 25px #20263d55;opacity:0;visibility:hidden;transform:translate(-50%,12px);transition:.2s}.word-toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+    .keyword-tip{margin:10px 0 0;color:#655d71;font-size:12px;font-weight:800}.clue-board{display:grid;gap:9px;margin-top:12px}.clue-card{width:100%;padding:12px 13px;border:2px dashed var(--cat,#6652c5);border-radius:14px;background:var(--cat-soft,#f0edff);color:#30364a;line-height:1.65}.clue-card>strong{display:block;color:var(--cat-ink,#5947b0);font-size:12px}.clue-card>p{margin:6px 0 0;font-weight:800}.clue-card>small{display:block;margin-top:6px;color:#655f6c}.clue-token{display:inline;padding:1px 4px;border:0;border-radius:5px;background:#e5e7eb;color:#273148;box-shadow:inset 0 -2px 0 #c8cbd1;font:inherit;font-weight:900;line-height:inherit;cursor:pointer;-webkit-box-decoration-break:clone;box-decoration-break:clone}.clue-token.collected{background:#b9f47a;color:#183c20;box-shadow:inset 0 -2px 0 #75c94a}.clue-token:focus-visible{outline:3px solid var(--cat,#6652c5);outline-offset:2px}.word-toast{position:fixed;z-index:2600;left:50%;bottom:95px;padding:11px 18px;border-radius:99px;background:#293148;color:#fff;font-weight:900;box-shadow:0 8px 25px #20263d55;opacity:0;visibility:hidden;transform:translate(-50%,12px);transition:.2s}.word-toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
     .teacher-clue-edit{margin-top:14px;padding:12px;border:2px solid var(--cat,#6652c5);border-radius:14px;background:var(--cat-soft,#f4f1ff)}.teacher-clue-edit b{display:block;margin-bottom:5px}.teacher-clue-edit small{display:block;color:#655f6c;line-height:1.45}.teacher-clue-edit textarea{width:100%;min-height:125px;margin-top:9px;padding:10px;border:1px solid #cfc7dc;border-radius:10px;background:#fff;line-height:1.5;resize:vertical}.teacher-clue-actions{display:flex;gap:7px;margin-top:8px}.teacher-clue-actions button{flex:1;padding:9px;border:0;border-radius:9px;font-weight:900;cursor:pointer}.teacher-clue-save{background:var(--cat,#6652c5);color:#fff}.teacher-clue-reset{background:#fff;color:#6c6473}
     .notebook-entry{position:fixed;z-index:1100;right:18px;bottom:18px;width:72px;height:72px;border:4px solid #fff;border-radius:50%;background:#fff0a9;color:#293148;box-shadow:0 8px 24px #20263d55;font-size:12px;font-weight:900;cursor:pointer}.notebook-entry span{display:block;font-size:25px;line-height:1}.notebook-badge{position:absolute;right:-3px;top:-5px;display:grid!important;place-items:center;min-width:23px;height:23px;padding:0 5px;border-radius:99px;background:#d95a65;color:#fff;font-size:11px!important}.notebook-panel{position:fixed;z-index:2200;inset:0;display:none;flex-direction:column;background:#f7f4ed;overflow:auto}.notebook-panel.show{display:flex}.notebook-head{position:sticky;z-index:3;top:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 4vw;background:#293148;color:#fff;box-shadow:0 4px 18px #20263d33}.notebook-head h2{margin:0;font-size:clamp(22px,3vw,32px)}.notebook-head small{display:block;margin-top:4px;color:#ddd8ec}.notebook-close{border:2px solid #ffffff88;border-radius:12px;padding:9px 13px;background:transparent;color:#fff;font-weight:900;cursor:pointer}.notebook-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 4vw;background:#fff;border-bottom:1px solid #e4ded2}.notebook-toolbar p{margin:0;line-height:1.5}.download-controls{display:flex;gap:8px;align-items:center}.download-controls select{padding:10px;border:2px solid #d9d1e5;border-radius:12px;background:#fff;font-weight:900}.notebook-download{border:0;border-radius:13px;padding:11px 15px;background:#6652c5;color:#fff;font-weight:900;cursor:pointer;white-space:nowrap}.notebook-pages{display:grid;gap:16px;padding:20px 4vw 45px}.notebook-empty{padding:55px 20px;border:2px dashed #d9d1c3;border-radius:22px;background:#fff;text-align:center;color:#746d7b;line-height:1.7}.notebook-place{overflow:hidden;border:1px solid #ded7ca;border-left:8px solid var(--cat,#6652c5);border-radius:18px;background:#fff;box-shadow:0 6px 18px #302a4712}.notebook-place-head{display:flex;align-items:center;gap:9px;padding:13px 16px;background:var(--cat-soft,#f0edff)}.notebook-place-head h3{margin:0;font-size:19px}.notebook-place-body{display:grid;grid-template-columns:1.25fr 1fr;gap:14px;padding:15px 16px}.notebook-label{display:block;margin-bottom:7px;color:#6b6273;font-size:12px;font-weight:900}.notebook-words{display:grid;gap:6px}.notebook-words span{padding:7px 9px;border-radius:10px;background:var(--cat-soft,#f0edff);color:var(--cat-ink,#5947b0);font-weight:800;line-height:1.45}.notebook-experience{margin:0;line-height:1.55}.notebook-line{margin-top:12px;padding-top:9px;border-top:1px dashed #cfc7ba;color:#8b8490;font-size:13px}.notebook-summary{padding:15px 4vw;background:#fff8d8;border-bottom:1px solid #eadfa9;font-weight:900}.notebook-summary b{color:#5b48b1}
     @media(max-width:600px){.notebook-entry{right:12px;bottom:12px;width:60px;height:60px}.notebook-entry span{font-size:21px}.notebook-toolbar{align-items:flex-start;flex-direction:column}.download-controls{width:100%}.download-controls select{flex:1;min-width:0}.notebook-download{flex:1}.notebook-place-body{grid-template-columns:1fr}.notebook-head{padding-inline:16px}}
@@ -92,7 +94,7 @@
 <body>
   <div class="header-shell">
     <img class="brand-icon" src="./app-icon.png" alt="ROAD ON LINK 우리 주변의 장소 탐구 아이콘">
-    <header class="top"><div class="header-title"><small>ROAD ON LINK · 우리 동네 탐구</small><div class="title-row"><h1>우리 지역 도움 장소 지도</h1><button class="title-reset" id="resetMap" type="button">↩ 처음 위치로</button></div></div><div class="progress">탐구한 장소 <span id="progress">0 / 10</span></div></header>
+    <header class="top"><div class="header-title"><small>ROAD ON LINK · 우리 동네 탐구</small><div class="title-row"><h1>우리 지역 도움 장소 지도</h1><button class="title-reset" id="resetMap" type="button">↩ 처음 위치로</button></div></div><div class="top-actions"><div class="progress">탐구한 장소 <span id="progress">0 / 10</span></div><button class="restart-explore" id="restartExplore" type="button">↻ 다시하기</button></div></header>
     <nav class="topics" id="topics" aria-label="장소 주제 선택"></nav>
   </div>
   <nav class="subtopics" id="subtopics" aria-label="세부 장소 종류 선택"></nav>
@@ -291,6 +293,17 @@
     }
     function localDateKey(){const d=new Date(),offset=d.getTimezoneOffset()*60000;return new Date(d-offset).toISOString().slice(0,10)}
     function savedJson(key){try{return JSON.parse(localStorage.getItem(key)||"{}")||{}}catch{return{}}}
+    function resetExploration(){
+      if(!window.confirm("오늘의 탐구 내용을 모두 지우고 다시 시작할까요?"))return;
+      ["roadOnLinkExplorationLog","roadOnLinkCollectedWords","roadOnLinkPlaceExperiences"].forEach(key=>localStorage.removeItem(key));
+      visited.clear();cat=cats[0][0];subcat=cats[0][0];selected=data[0];
+      $("progress").textContent="0 / "+data.length;
+      $("notebookPanel").classList.remove("show");$("notebookPanel").setAttribute("aria-hidden","true");document.body.style.overflow="";
+      render();updateNotebookBadge();
+      if(leafletMap)leafletMap.setView(initialCenter,initialZoom,{animate:true});
+      if(naverMap){naverMap.setCenter(new naver.maps.LatLng(...initialCenter));naverMap.setZoom(initialZoom)}
+      showWordToast("탐구 내용을 지우고 처음부터 다시 시작해요.");
+    }
     function saveVisit(p){const log=savedJson("roadOnLinkExplorationLog");log[p[0]]={date:localDateKey(),category:p[1],visitedAt:new Date().toISOString()};localStorage.setItem("roadOnLinkExplorationLog",JSON.stringify(log));updateNotebookBadge()}
     function select(p){selected=p;visited.add(p[0]);saveVisit(p);$("progress").textContent=visited.size+" / "+data.length;render();if(leafletMap)leafletMap.panTo([p[2],p[3]]);if(naverMap)naverMap.panTo(new naver.maps.LatLng(p[2],p[3]));if(window.matchMedia("(max-width:760px)").matches){$("exploreJumpText").textContent=p[0]+" 탐구 카드 보기";$("exploreJump").classList.add("show")}}
     const detailedPlaceDescriptions={
@@ -647,6 +660,7 @@
       if(naverMap){naverMap.setCenter(new naver.maps.LatLng(...initialCenter));naverMap.setZoom(initialZoom)}
       setTimeout(()=>{$("mapStatus").textContent="마커를 눌러 장소를 탐구해 보세요"},1800);
     };
+    $("restartExplore").onclick=resetExploration;
     $("exploreJump").onclick=function(){$("placeCard").scrollIntoView({behavior:"smooth",block:"start"});$("exploreJump").classList.remove("show")};
     $("teacherEntry").onclick=function(){if(teacherUnlocked){openTeacherPanel();return}$("teacherError").textContent="";$("teacherPassword").value="";$("teacherLogin").classList.add("show");$("teacherLogin").setAttribute("aria-hidden","false");setTimeout(()=>$("teacherPassword").focus(),50)};
     $("teacherLoginCancel").onclick=function(){$("teacherLogin").classList.remove("show");$("teacherLogin").setAttribute("aria-hidden","true")};
