@@ -90,6 +90,18 @@
     @media(max-width:600px){.notebook-entry{right:12px;bottom:12px;width:60px;height:60px}.notebook-entry span{font-size:21px}.notebook-toolbar{align-items:flex-start;flex-direction:column}.download-controls{width:100%}.download-controls select{flex:1;min-width:0}.notebook-download{flex:1}.notebook-place-body{grid-template-columns:1fr}.notebook-head{padding-inline:16px}}
     @media(max-width:600px){.experience-options button{font-size:13px}}
   </style>
+  <style>
+    .korean-fortress-icon{display:inline-grid;place-items:center;width:1.7em;height:1.35em;vertical-align:middle}
+    .korean-fortress-icon svg{display:block;width:100%;height:100%;overflow:visible}
+    .korean-fortress-icon .wall{fill:#b9b2a4;stroke:#57534b;stroke-width:2}
+    .korean-fortress-icon .stones{fill:none;stroke:#81796d;stroke-width:1.4}
+    .korean-fortress-icon .gate{fill:#292923;stroke:#57534b;stroke-width:2}
+    .korean-fortress-icon .hall{fill:#d9c49b;stroke:#5c4332;stroke-width:2}
+    .korean-fortress-icon .pillars{fill:none;stroke:#8c3f31;stroke-width:2.7}
+    .korean-fortress-icon .roof{fill:#344b43;stroke:#1f302b;stroke-width:2.5;stroke-linejoin:round}
+    .korean-fortress-icon .ridge{fill:none;stroke:#1f302b;stroke-width:2;stroke-linecap:round}
+    .place-list .korean-fortress-icon{width:1.35em;height:1.05em}
+  </style>
 </head>
 <body>
   <div class="header-shell">
@@ -112,6 +124,7 @@
   <section class="teacher-panel" id="teacherPanel" aria-hidden="true"><header class="teacher-panel-head"><div><h2>👩‍🏫 교사용 장소 자료</h2><small>주제별 장소·설명·공개 사진을 한눈에 확인하세요.</small></div><button class="teacher-close" id="teacherClose" type="button">✕ 닫기</button></header><nav class="teacher-cats" id="teacherCats" aria-label="교사용 주제 선택"></nav><div class="teacher-grid" id="teacherGrid"></div></section>
   <footer><span>마커를 눌러 우리 동네의 도움 장소를 탐구해 보세요!</span><b>위급할 땐 112 · 119</b></footer>
   <script>
+    const koreanFortressIcon=`<span class="korean-fortress-icon" role="img" aria-label="한국 전통 읍성 성문"><svg viewBox="0 0 72 56" aria-hidden="true"><path class="wall" d="M3 30h66v23H3z"/><path class="stones" d="M3 38h66M14 30v8m17-8v8m18-8v8m12 0v8M8 46v7m18-7v7m30-7v7"/><path class="gate" d="M28 53V39c0-10 16-10 16 0v14z"/><path class="hall" d="M22 20h28v17H22z"/><path class="pillars" d="M27 23v14m9-14v14m9-14v14"/><path class="roof" d="M13 21c6-2 9-7 12-13h22c3 6 6 11 12 13-8 3-38 3-46 0z"/><path class="ridge" d="M24 8c7-3 17-3 24 0"/></svg></span>`;
     let data=[
       ["동래구청","공공기관",35.2056,129.0839,"🏛️","동래구의 여러 행정 일을 맡아보는 곳이에요.","생활에 필요한 민원과 지역 정보를 안내받을 수 있어요.","평일 09:00~18:00","방문 전 필요한 서류를 전화나 홈페이지에서 확인해요.","구청은 우리 동네의 어떤 문제를 해결해 줄까요?","https://www.dongnae.go.kr/","dongnae-gu-office.jpg","시청·구청"],
       ["부산광역시청","공공기관",35.1798,129.0750,"🏛️","부산광역시의 행정 업무를 맡는 시청이에요.","부산 전체와 관련된 민원과 행정 정보를 안내받을 수 있어요.","평일 09:00~18:00","방문 전 담당 부서와 필요한 서류를 확인해요.","시청과 구청은 맡은 일이 어떻게 다를까요?","https://www.busan.go.kr/","https://www.busan.go.kr/comm/getImage?srvcId=BBSTY3&upperNo=1727487&fileTy=ATTACH&fileNo=1","시청·구청"],
@@ -135,7 +148,7 @@
       ["롯데시네마 동래","놀이·여가",35.2209,129.0855,"🎬","여러 사람이 함께 영화를 관람하는 영화관이에요.","영화 속 다양한 이야기와 생각을 경험하며 문화생활을 즐기도록 도와줘요.","","","영화를 보고 친구들과 어떤 이야기를 나눌 수 있을까요?","https://www.lottecinema.co.kr/","","극장·영화관"],
       ["복천박물관","교육·문화",35.2087,129.0914,"🏛️","복천동 고분군에서 발견된 유물과 가야 문화를 살펴보는 공공 박물관이에요.","실제 유물과 전시를 보며 우리 지역의 역사와 옛사람들의 생활을 배우도록 도와줘요.","","","박물관의 유물은 우리 지역의 옛 모습을 어떻게 알려 줄까요?","https://museum.busan.go.kr/bokcheon/","","박물관"],
       ["부산해양자연사박물관","교육·문화",35.2216,129.0765,"🐋","바다 생물과 자연환경을 전시하는 공공 박물관이에요.","다양한 해양 생물 자료를 보며 바다와 자연을 이해하도록 도와줘요.","","","바다 생물을 보호하려면 우리가 무엇을 할 수 있을까요?","https://www.busan.go.kr/sea/","","박물관"],
-      ["동래읍성역사관","교육·문화",35.2103,129.0910,"🏯","동래읍성과 동래 지역의 역사를 소개하는 공공 전시관이에요.","지도와 유물, 설명 자료를 통해 우리 지역의 역사와 문화를 배우도록 도와줘요.","","","동래읍성은 우리 지역의 어떤 이야기를 전해 줄까요?","https://www.dongnae.go.kr/tour/","","박물관"],
+      ["동래읍성역사관","교육·문화",35.2103,129.0910,koreanFortressIcon,"동래읍성과 동래 지역의 역사를 소개하는 공공 전시관이에요.","지도와 유물, 설명 자료를 통해 우리 지역의 역사와 문화를 배우도록 도와줘요.","","","동래읍성은 우리 지역의 어떤 이야기를 전해 줄까요?","https://www.dongnae.go.kr/tour/","","박물관"],
       ["충렬사","교육·문화",35.1994,129.0976,"🏛️","임진왜란 때 나라와 지역을 지킨 분들을 기리는 역사 문화유산이에요.","우리 지역의 역사와 선조들의 마음을 배우도록 도와줘요.","","","충렬사에서 우리가 기억해야 할 역사는 무엇일까요?","https://www.dongnae.go.kr/index.dongnae?menuCd=DOM_000000401003012003","https://www.dongnae.go.kr/images/tour/contents/sub01/img_1_3_9.jpg","문화유산"],
       ["다이소 동래수안점","생활편의",35.2013956,129.086865,"🧺","학용품과 여러 생활용품을 한곳에서 살 수 있는 생활용품점이에요.","공부하거나 생활할 때 자주 필요한 물건을 편리하게 고를 수 있도록 도와줘요.","","","다이소에서 학교생활에 필요한 물건은 무엇을 찾을 수 있을까요?","https://www.daiso.co.kr/cs/shop","","생활용품 구입"],
       ["다이소 부산동래역점","생활편의",35.20236,129.07805,"🧺","학용품과 여러 생활용품을 한곳에서 살 수 있는 생활용품점이에요.","롯데백화점 동래점과 동래역 부근에서 생활에 필요한 물건을 편리하게 구입하도록 도와줘요.","","","우리 생활에서 다이소에서 자주 찾게 되는 물건은 무엇일까요?","https://www.daiso.co.kr/cs/shop","","생활용품 구입"],
@@ -472,7 +485,7 @@
       const f=filtered(); $("count").textContent=`● 도움 장소 ${f.length}곳`;
       $("markers").innerHTML=f.map((p,i)=>{const left=Math.min(88,Math.max(9,12+((p[3]-129.05)/.055)*72)),top=20+(i%4)*18;return`<button class="marker ${selected===p?"active":""}" data-place="${p[0]}" style="left:${left}%;top:${top}%;${categoryVars(p[1])}"><span class="marker-text"><em>${p[1]}</em><b>${p[0]}</b></span></button>`}).join("");
       $("list").innerHTML=f.map(p=>`<button class="${selected===p?"on":""}" data-place="${p[0]}">${visited.has(p[0])?"✓":p[4]} ${p[0]}</button>`).join("");
-      $("icon").textContent=selected[4];$("category").textContent=selected[1];$("category").setAttribute("style",categoryVars(selected[1]));$("title").textContent=selected[0];renderDescription(selected);$("help").textContent=helpDescription(selected);$("question").textContent=selected[9];$("source").href=selected[10];renderExperience(selected);showPlacePhoto(selected);
+      $("icon").innerHTML=selected[4];$("category").textContent=selected[1];$("category").setAttribute("style",categoryVars(selected[1]));$("title").textContent=selected[0];renderDescription(selected);$("help").textContent=helpDescription(selected);$("question").textContent=selected[9];$("source").href=selected[10];renderExperience(selected);showPlacePhoto(selected);
       document.querySelectorAll("[data-cat]").forEach(b=>b.onclick=()=>{cat=b.dataset.cat;subcat="전체";selected=(cat==="전체"?data:data.filter(p=>p[1]===cat))[0]||data[0];render();focusFilteredPlaces()});
       document.querySelectorAll("[data-subcat]").forEach(b=>b.onclick=()=>{
         subcat=b.dataset.subcat;
