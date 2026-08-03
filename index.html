@@ -394,8 +394,25 @@
       return sections;
     }
     function renderDescription(p){renderClues(p)}
+    function suggestedInlineTokens(text){
+      const phrases=[
+        "주민의 생활과 관련된 일","지방자치단체의 중심 기관","여권 신청·수령","여권 신청","민원서류 발급","여러 민원서류 발급","복지·세금·건축 상담","도로·공원·환경·문화 사업","도로·공원·복지·문화 사업","주민의 의견","지역 문제 해결","살기 좋은 곳",
+        "가까운 동네","행정과 복지 업무","주민등록등본·초본","가족관계증명서","전입신고","동마다 주민의 필요","지역 상황을 가장 가까이에서 살피는 역할","행정",
+        "위험한 상황","길을 잃은 사람","범죄 예방","안전교육","화재 진압","응급 구조","재난 대응",
+        "건강검진","예방접종","감염병 예방","응급환자","전문적인 치료","종합병원","보건 의료 서비스",
+        "책과 자료","필요한 정보","독서 활동","문화유산","역사 자료","전시와 체험","배움의 기회","지역 공동체",
+        "휴식과 산책","놀이 공간","생활체육","공연과 문화 활동","영화 관람","체육 활동",
+        "생활용품","대형마트","대중교통","도시철도","금융 업무","돈을 안전하게 보관","저축","물건과 서비스","소비"
+      ];
+      const found=phrases.filter(phrase=>text.includes(phrase));
+      if(found.length)return found.filter((phrase,index)=>!found.some((other,otherIndex)=>otherIndex!==index&&other.includes(phrase))).slice(0,4);
+      const clean=text.replace(/[.!?]/g,"").split(/\s+/).filter(Boolean);
+      if(clean.length<4)return clean.length?[clean.join(" ")]:[];
+      const size=Math.min(4,Math.max(2,Math.floor(clean.length/3))),start=Math.max(0,Math.floor((clean.length-size)/2));
+      return[clean.slice(start,start+size).join(" ")];
+    }
     function renderInlineClues(text,tokens,saved,sectionIndex){
-      const usable=[...new Set(tokens)].filter(token=>token&&text.includes(token)).sort((a,b)=>b.length-a.length),matches=[];
+      const matched=tokens.filter(token=>token&&text.includes(token)),usable=[...new Set(matched.length?matched:suggestedInlineTokens(text))].sort((a,b)=>b.length-a.length),matches=[];
       usable.forEach((token,tokenIndex)=>{let start=0,index;while((index=text.indexOf(token,start))!==-1){if(!matches.some(match=>index<match.end&&index+token.length>match.start))matches.push({start:index,end:index+token.length,token,tokenIndex});start=index+token.length}});
       matches.sort((a,b)=>a.start-b.start);let cursor=0,html="";
       matches.forEach(match=>{html+=escapeTeacher(text.slice(cursor,match.start));html+=`<button class="clue-token ${saved.includes(match.token)?"collected":""}" type="button" data-clue-section="${sectionIndex}" data-clue-value="${encodeURIComponent(match.token)}">${escapeTeacher(match.token)}</button>`;cursor=match.end});
